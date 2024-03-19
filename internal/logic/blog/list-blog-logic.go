@@ -1,7 +1,6 @@
 package blog
 
 import (
-	"blog_backend/common/errorx"
 	"context"
 	"fmt"
 
@@ -28,5 +27,7 @@ func NewListBlogLogic(ctx context.Context, svcCtx *svc.ServiceContext) *ListBlog
 func (l *ListBlogLogic) ListBlog(req *types.ListBlogReq) (resp *types.ListBlogRes, err error) {
 	// todo: add your logic here and delete this line
 	fmt.Println(req.Page, req.Limit)
-	return nil, errorx.NewDefaultErrorWithStatus("hhhh")
+	return &types.ListBlogRes{
+		Name: "boyyang",
+	}, err
 }
