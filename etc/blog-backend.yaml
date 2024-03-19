@@ -1,3 +1,11 @@
 Name: blog_backend
 Host: 0.0.0.0
 Port: 8888
+MySQLConf:
+  Host: 'sh-cynosdbmysql-grp-divyu7ha.sql.tencentcdb.com'
+  Port: 20126
+  Database: boyyang
+  Username: root
+  Password: yzhD45683968yzhD
+  Charset: utf8
+  Timeout: 10s

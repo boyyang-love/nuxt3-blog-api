@@ -15,8 +15,8 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 		[]rest.Route{
 			{
 				Method:  http.MethodGet,
-				Path:    "/blog",
-				Handler: blog.BlogListHandler(serverCtx),
+				Path:    "/list/blog",
+				Handler: blog.ListBlogHandler(serverCtx),
 			},
 		},
 	)
