@@ -5,6 +5,10 @@ import (
 	"net/http"
 
 	blog "blog_backend/internal/handler/blog"
+	member "blog_backend/internal/handler/member"
+	tag "blog_backend/internal/handler/tag"
+	upload "blog_backend/internal/handler/upload"
+	user "blog_backend/internal/handler/user"
 	"blog_backend/internal/svc"
 
 	"github.com/zeromicro/go-zero/rest"
@@ -15,9 +19,104 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 		[]rest.Route{
 			{
 				Method:  http.MethodGet,
-				Path:    "/list/blog",
+				Path:    "/blog/list",
 				Handler: blog.ListBlogHandler(serverCtx),
 			},
+			{
+				Method:  http.MethodGet,
+				Path:    "/blog/search/id",
+				Handler: blog.SearchBlogByIdHandler(serverCtx),
+			},
 		},
+	)
+
+	server.AddRoutes(
+		[]rest.Route{
+			{
+				Method:  http.MethodPost,
+				Path:    "/blog/create",
+				Handler: blog.CreateBlogHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPost,
+				Path:    "/blog/delete",
+				Handler: blog.DeleteBlogHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPost,
+				Path:    "/blog/update",
+				Handler: blog.UpdateBlogHandler(serverCtx),
+			},
+		},
+		rest.WithJwt(serverCtx.Config.Auth.AccessSecret),
+	)
+
+	server.AddRoutes(
+		[]rest.Route{
+			{
+				Method:  http.MethodPost,
+				Path:    "/user/signin",
+				Handler: member.SignInHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPost,
+				Path:    "/user/signup",
+				Handler: member.SignUpHandler(serverCtx),
+			},
+		},
+	)
+
+	server.AddRoutes(
+		[]rest.Route{
+			{
+				Method:  http.MethodPost,
+				Path:    "/tag/create",
+				Handler: tag.CreateTagHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPost,
+				Path:    "/tag/delete",
+				Handler: tag.DeleteTagHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPost,
+				Path:    "/tag/update",
+				Handler: tag.UpdateTagHandler(serverCtx),
+			},
+		},
+		rest.WithJwt(serverCtx.Config.Auth.AccessSecret),
+	)
+
+	server.AddRoutes(
+		[]rest.Route{
+			{
+				Method:  http.MethodGet,
+				Path:    "/file/list",
+				Handler: upload.FileListHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPost,
+				Path:    "/file/upload",
+				Handler: upload.FileUploadHandler(serverCtx),
+			},
+		},
+		rest.WithJwt(serverCtx.Config.Auth.AccessSecret),
+		rest.WithMaxBytes(20971520),
+	)
+
+	server.AddRoutes(
+		[]rest.Route{
+			{
+				Method:  http.MethodPost,
+				Path:    "/user/update",
+				Handler: user.UpdateUserHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPost,
+				Path:    "/user/update/password",
+				Handler: user.UpdateUserPasswordHandler(serverCtx),
+			},
+		},
+		rest.WithJwt(serverCtx.Config.Auth.AccessSecret),
 	)
 }

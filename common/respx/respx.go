@@ -1,8 +1,8 @@
 package respx
 
 import (
-	"github.com/zeromicro/go-zero/rest/httpx"
-	"net/http"
+	"fmt"
+	"reflect"
 )
 
 type Body struct {
@@ -11,19 +11,15 @@ type Body struct {
 	Data interface{} `json:"data,omitempty"`
 }
 
-type Msg struct {
-	Msg string `json:"msg"`
-}
-
-func Resp(w http.ResponseWriter, resp interface{}, msg interface{}) {
-	body := Body{
+func ReturnBody(resp any) *Body {
+	//data := remove
+	fmt.Println(resp)
+	v := reflect.ValueOf(resp).Elem()
+	msg := v.FieldByName("RespMsg")
+	fmt.Println(msg.FieldByName("Msg"))
+	return &Body{
 		Code: 1,
-		Msg:  "ok",
+		Msg:  msg.String(),
 		Data: resp,
 	}
-	if msg.(Msg).Msg != "" {
-		body.Msg = msg.(Msg).Msg
-	}
-
-	httpx.OkJson(w, body)
 }

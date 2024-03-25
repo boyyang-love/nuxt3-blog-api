@@ -22,7 +22,6 @@ func ListBlogHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 		if err != nil {
 			httpx.ErrorCtx(r.Context(), w, err)
 		} else {
-			//respx.Resp(w, resp, msg)
 			httpx.OkJsonCtx(r.Context(), w, resp)
 		}
 	}

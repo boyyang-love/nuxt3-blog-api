@@ -1,0 +1,49 @@
+syntax = "v1"
+
+type (
+    SignInReq {
+        Username string `json:"username"`
+        Password string `json:"password"`
+    }
+    SignInRes {
+        UserInfo UserInfo `json:"user_info"`
+        Token string `json:"token"`
+    }
+    UserInfo {
+        Id uint `json:"id"`
+        Uid string `json:"uid"`
+        Username string `json:"username"`
+        Avatar string `json:"avatar"`
+        Account string `json:"account"`
+        Motto string `json:"motto"`
+        Address string `json:"address"`
+        Tel int `json:"tel"`
+        Email string `json:"email"`
+        QQ int `json:"qq"`
+        Wechat string `json:"wechat"`
+        GitHub string `json:"git_hub"`
+    }
+)
+
+type (
+    SignUpReq {
+        Username string `json:"username"`
+        Password string `json:"password"`
+        Email string `json:"email"`
+    }
+    SignUpRes {
+        Message string `json:"message"`
+    }
+)
+
+@server(
+    group: member
+)
+service blog_backend {
+    @handler SignIn // 登录
+    post /user/signin (SignInReq) returns (SignInRes)
+
+    @handler SignUp // 注册
+    post /user/signup (SignUpReq) returns (SignUpRes)
+}
+

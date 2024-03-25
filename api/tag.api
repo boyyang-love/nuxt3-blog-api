@@ -1,0 +1,44 @@
+syntax = "v1"
+
+type (
+    CreateTagReq {
+        Name string `json:"name"`
+        Type string `json:"type,options=[article,image]"`
+    }
+    CreateTagRes {
+        Message string `json:"message"`
+    }
+)
+
+type (
+    UpdateTagReq {
+        Id uint `json:"id"`
+        Name string `json:"name"`
+    }
+    UpdateTagRes {
+        Message string `json:"message"`
+    }
+)
+
+type (
+    DeleteTagReq {
+        Id uint `json:"id"`
+    }
+    DeleteTagRes {
+        Message string `json:"message"`
+    }
+)
+
+@server(
+    jwt: Auth
+    group: tag
+)
+service blog_backend {
+    @handler CreateTag
+    post /tag/create (CreateTagReq) returns (CreateTagRes)
+    @handler UpdateTag
+    post /tag/update (UpdateTagReq) returns (UpdateTagRes)
+    @handler DeleteTag
+    post /tag/delete (DeleteTagReq) returns (DeleteTagRes)
+}
+

@@ -12,7 +12,20 @@ type MySQLConf struct {
 	Timeout  string
 }
 
+type Auth struct {
+	AccessSecret string
+	AccessExpire int64
+}
+
+type CloudBase struct {
+	ClientUrl       string
+	ClientSecretId  string
+	ClientSecretKey string
+}
+
 type Config struct {
 	rest.RestConf
 	MySQLConf MySQLConf
+	Auth      Auth
+	CloudBase CloudBase
 }

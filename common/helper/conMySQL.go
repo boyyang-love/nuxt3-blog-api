@@ -26,6 +26,10 @@ func ConMySQL(mySQLConf config.MySQLConf) (db *gorm.DB, err error) {
 		},
 	})
 
+	if err = AutoMigrate(db); err != nil {
+		return db, err
+	}
+
 	return db, err
 }
 
@@ -33,16 +37,10 @@ func AutoMigrate(db *gorm.DB) (err error) {
 
 	err = db.AutoMigrate(
 	//&models.User{},
-	//&models.Upload{},
-	//&models.Exhibition{},
-	//&models.Blog{},
-	//&models.Comment{},
-	//&models.Likes{},
-	//&models.Follow{},
-	//&models.Tag{},
-	//&models.Star{},
 	//&models.Article{},
-	//&models.Notice{},
+	//&models.Tag{},
+	//&models.Image{},
+	//&models.Upload{},
 	)
 
 	return err

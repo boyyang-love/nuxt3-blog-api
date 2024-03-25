@@ -1,3 +1,7 @@
 syntax = "v1"
 
 import "blog.api"
+import "user.api"
+import "member.api"
+import "upload.api"
+import "tag.api"

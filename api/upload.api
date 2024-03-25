@@ -1,0 +1,45 @@
+syntax = "v1"
+
+type (
+    FileUploadReq {
+        Hash string `json:"hash,optional"`
+        FileName string `json:"file_name,optional"`
+        Ext string `json:"ext,optional"`
+        Size int64 `json:"size,optional"`
+        FilePath string `json:"file_path,optional"`
+    }
+    FileUploadRes {
+        FileName string `json:"file_name"`
+        Path string `json:"path"`
+    }
+)
+
+type (
+    FileListReq {
+        Page int `form:"page"`
+        Limit int `form:"limit"`
+        Type string `form:"type,options=[blog,image,avatar]"`
+    }
+    FileListRes {
+        Count int64 `json:"count"`
+        Infos []FileInfo `json:"infos"`
+    }
+    FileInfo {
+        Id uint `json:"id"`
+        FileName string `json:"file_name"`
+        FilePath string `json:"file_path"`
+    }
+)
+
+@server(
+    jwt: Auth
+    group: upload
+    maxBytes:   20971520
+)
+service blog_backend {
+    @handler FileUpload
+    post /file/upload (FileUploadReq) returns (FileUploadRes)
+    @handler FileList
+    get /file/list (FileListReq) returns (FileListRes)
+}
+
