@@ -34,18 +34,30 @@ func (l *FileListLogic) FileList(req *types.FileListReq) (resp *types.FileListRe
 	var count int64
 	var fileInfo []models.Upload
 	var infos []types.FileInfo
-	if err = l.svcCtx.DB.
+
+	DB := l.svcCtx.DB.
 		Model(&models.Upload{}).
 		Order("Updated desc").
 		Select("id", "file_name", "file_path").
-		Where("user_id = ? and type = ?", userid, req.Type).
-		Offset((req.Page - 1) * req.Limit).
-		Limit(req.Limit).
-		Find(&fileInfo).
-		Offset(-1).
-		Count(&count).
-		Error; err != nil {
-		return nil, err
+		Where("user_id = ? and type = ?", userid, req.Type)
+
+	if req.Page == 0 || req.Limit == 0 {
+		if err = DB.
+			Find(&fileInfo).
+			Count(&count).
+			Error; err != nil {
+			return nil, err
+		}
+	} else {
+		if err = DB.
+			Offset((req.Page - 1) * req.Limit).
+			Limit(req.Limit).
+			Find(&fileInfo).
+			Offset(-1).
+			Count(&count).
+			Error; err != nil {
+			return nil, err
+		}
 	}
 
 	_ = copier.Copy(&infos, &fileInfo)

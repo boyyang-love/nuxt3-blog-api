@@ -32,6 +32,7 @@ func (l *CreateTagLogic) CreateTag(req *types.CreateTagReq) (resp *types.CreateT
 	}
 	if err = l.svcCtx.DB.
 		Model(&models.Tag{}).
+		Where("tag_name = ? and user_id = ?", req.Name, userId).
 		FirstOrCreate(&models.Tag{
 			TagName: req.Name,
 			Type:    req.Type,

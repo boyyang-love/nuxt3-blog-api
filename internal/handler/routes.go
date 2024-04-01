@@ -3,8 +3,11 @@ package handler
 
 import (
 	"net/http"
+	"time"
 
 	blog "blog_backend/internal/handler/blog"
+	comment "blog_backend/internal/handler/comment"
+	email "blog_backend/internal/handler/email"
 	member "blog_backend/internal/handler/member"
 	tag "blog_backend/internal/handler/tag"
 	upload "blog_backend/internal/handler/upload"
@@ -55,6 +58,37 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 		[]rest.Route{
 			{
 				Method:  http.MethodPost,
+				Path:    "/comment/create",
+				Handler: comment.CreateCommentHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodGet,
+				Path:    "/comment/delete",
+				Handler: comment.DeleteCommentHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodGet,
+				Path:    "/comment/list",
+				Handler: comment.ListCommentHandler(serverCtx),
+			},
+		},
+		rest.WithJwt(serverCtx.Config.Auth.AccessSecret),
+	)
+
+	server.AddRoutes(
+		[]rest.Route{
+			{
+				Method:  http.MethodPost,
+				Path:    "/email/code",
+				Handler: email.SendCodeHandler(serverCtx),
+			},
+		},
+	)
+
+	server.AddRoutes(
+		[]rest.Route{
+			{
+				Method:  http.MethodPost,
 				Path:    "/user/signin",
 				Handler: member.SignInHandler(serverCtx),
 			},
@@ -79,6 +113,11 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Handler: tag.DeleteTagHandler(serverCtx),
 			},
 			{
+				Method:  http.MethodGet,
+				Path:    "/tag/list",
+				Handler: tag.ListTagHandler(serverCtx),
+			},
+			{
 				Method:  http.MethodPost,
 				Path:    "/tag/update",
 				Handler: tag.UpdateTagHandler(serverCtx),
@@ -101,6 +140,7 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 			},
 		},
 		rest.WithJwt(serverCtx.Config.Auth.AccessSecret),
+		rest.WithTimeout(20000*time.Millisecond),
 		rest.WithMaxBytes(20971520),
 	)
 

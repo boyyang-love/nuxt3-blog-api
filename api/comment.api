@@ -1,0 +1,66 @@
+syntax = "v1"
+
+type (
+    CommentCreateReq {
+        Content string `json:"content"`
+        ArticleId uint `json:"article_id,optional"`
+        CommentId uint `json:"comment_id,optional"`
+        WebsiteUserId uint `json:"website_user_id,optional"`
+        Type string `json:"type,options=[article,comment,website]"`
+    }
+    CommentCreateRes {
+        Message string `json:"message"`
+    }
+)
+
+type (
+    CommentDeleteReq {
+        Id uint `json:"id"`
+    }
+    CommentDeleteRes {
+        Message string `json:"message"`
+    }
+)
+
+type (
+    CommentListReq {
+        Id uint `form:"id"`
+        Type string `form:"type,options=[article,comment,website]"`
+    }
+    CommentListRes {
+        Count int64 `json:"count"`
+        Info []CommentInfo `json:"info"`
+    }
+    CommentInfo {
+        Id uint `json:"id"`
+        Created int `json:"created"`
+        Content string `json:"content"`
+        ArticleId uint `json:"article_id"`
+        CommentId uint `json:"comment_id"`
+        WebsiteUserId uint `json:"website_user_id"`
+        UserId uint `json:"user_id"`
+        Type string `json:"type"`
+        User CommentUserInfo `json:"user"`
+    }
+
+    CommentUserInfo {
+        Id uint `json:"id"`
+        Uid string `json:"uid"`
+        Username string `json:"username"`
+        Avatar string `json:"avatar"`
+    }
+)
+
+@server(
+    jwt: Auth
+    group: comment
+)
+service blog_backend {
+    @handler CreateComment
+    post /comment/create (CommentCreateReq) returns (CommentCreateRes)
+    @handler DeleteComment
+    get /comment/delete (CommentDeleteReq) returns (CommentDeleteRes)
+    @handler ListComment
+    get /comment/list (CommentListReq) returns (CommentListRes)
+}
+

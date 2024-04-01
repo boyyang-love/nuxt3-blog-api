@@ -3,13 +3,12 @@ package member
 import (
 	"blog_backend/common/errorx"
 	"blog_backend/common/helper"
+	"blog_backend/internal/svc"
+	"blog_backend/internal/types"
 	"blog_backend/models"
 	"context"
 	"errors"
 	"gorm.io/gorm"
-
-	"blog_backend/internal/svc"
-	"blog_backend/internal/types"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -30,6 +29,16 @@ func NewSignUpLogic(ctx context.Context, svcCtx *svc.ServiceContext) *SignUpLogi
 
 func (l *SignUpLogic) SignUp(req *types.SignUpReq) (resp *types.SignUpRes, err error) {
 	var user models.User
+
+	code, err := l.svcCtx.Cache.Get(req.Email)
+	if err != nil {
+		return nil, errorx.NewDefaultError("验证码已过期")
+	}
+
+	if string(code) != req.Code {
+		return nil, errorx.NewDefaultError("验证码错误")
+	}
+
 	if err = l.svcCtx.DB.
 		Model(&models.User{}).
 		Select("username", "email").

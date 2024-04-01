@@ -21,7 +21,7 @@ type (
         Des string `json:"des"`
         Cover string `json:"cover"`
         Content string `json:"content"`
-        Tags []uint `json:"tags"`
+        Tags []uint `json:"tags,optional"`
     }
     UpdateBlogRes {
         Message string `json:"message"`
@@ -41,12 +41,12 @@ type (
     ListBlogReq {
         Page int `form:"page"`
         Limit int `form:"limit"`
+        Type string `form:"type,optional,options=[top,recently,created]"`
     }
     ListBlogRes {
         Count int64 `json:"count"`
         List []ListBlogItem `json:"list"`
     }
-
     ListBlogItem {
         Id uint `json:"id"`
         Uid string `json:"uid"`
@@ -60,9 +60,10 @@ type (
         // 关系
         User BlogUserInfo `json:"user" gorm:"column:User;reference:UserId"`
         Tag []*BlogTags `json:"tag" gorm:"column:Tag;many2many:article_tag"`
+        Comment []BlogComments `json:"comment" gorm:"column:Comment"`
     }
-
     BlogUserInfo {
+        Id uint `json:"id"`
         Username string `json:"username"`
         Avatar string `json:"avatar"`
         Motto string `json:"motto"`
@@ -73,7 +74,23 @@ type (
         TagName string `json:"tag_name""`
         Type string `json:"type"`
     }
-
+    BlogComments {
+        Id uint `json:"id"`
+        Created int `json:"created"`
+        Content string `json:"content"`
+        ArticleId uint `json:"article_id"`
+        CommentId uint `json:"comment_id"`
+        WebsiteUserId uint `json:"website_user_id"`
+        UserId uint `json:"user_id"`
+        Type string `json:"type"`
+        User BlogCommentsUserInfo `json:"user"`
+    }
+    BlogCommentsUserInfo {
+        Id uint `json:"id"`
+        Uid string `json:"uid"`
+        Username string `json:"username"`
+        Avatar string `json:"avatar"`
+    }
     BlogSearchByIdReq {
         Id uint `form:"id"`
     }
@@ -88,6 +105,7 @@ type (
 service blog_backend {
     @handler ListBlog
     get /blog/list (ListBlogReq) returns (ListBlogRes)
+
     @handler SearchBlogById
     get /blog/search/id (BlogSearchByIdReq) returns (BlogSearchByIdRes)
 }

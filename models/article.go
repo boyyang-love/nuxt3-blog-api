@@ -19,9 +19,11 @@ type Article struct {
 	Cover   string `json:"cover" form:"cover"`
 	Content string `json:"content" form:"content" gorm:"size:15000"`
 	UserId  uint   `json:"user_id" form:"user_id"`
+	Star    int    `json:"star" form:"star"`
 	// 关系
-	User User   `json:"user" form:"user" gorm:"reference:UserId"`
-	Tag  []*Tag `json:"tag" form:"tag" gorm:"many2many:article_tag"`
+	User    User      `json:"user" form:"user" gorm:"reference:UserId"`
+	Tag     []*Tag    `json:"tag" form:"tag" gorm:"many2many:article_tag"`
+	Comment []Comment `json:"comment" form:"comment" gorm:"reference:Id"`
 }
 
 func (a *Article) TableName() string {

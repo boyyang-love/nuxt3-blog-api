@@ -1,0 +1,19 @@
+syntax = "v1"
+
+type (
+    EmailSendCodeReq {
+        Email string `json:"email"`
+    }
+    EmailSendCodeRes {
+        Message string `json:"message"`
+    }
+)
+
+@server(
+    group: email
+)
+
+service blog_backend {
+    @handler SendCode
+    post /email/code (EmailSendCodeReq) returns (EmailSendCodeRes)
+}

@@ -30,6 +30,7 @@ func main() {
 		rest.WithCustomCors(
 			nil,
 			notAllowedFn,
+			"http://www.boyyang.cn",
 			"http://localhost:3000",
 		),
 	)
@@ -54,7 +55,7 @@ func main() {
 		case errors.As(err, &e):
 			return http.StatusInternalServerError, e.Data()
 		default:
-			return http.StatusInternalServerError, nil
+			return http.StatusInternalServerError, err.Error()
 		}
 	})
 

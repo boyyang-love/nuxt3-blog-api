@@ -1,6 +1,7 @@
 package user
 
 import (
+	"blog_backend/common/errorx"
 	"blog_backend/models"
 	"context"
 	"encoding/json"
@@ -30,23 +31,34 @@ func (l *UpdateUserLogic) UpdateUser(req *types.UpdateUserReq) (resp *types.Upda
 	if err != nil {
 		return nil, err
 	}
+
+	var user []models.User
+	l.svcCtx.DB.
+		Model(&models.User{}).
+		Select("username", "id").
+		Where("username = ? and id != ?", req.Username, userid).
+		Find(&user)
+
+	if len(user) != 0 {
+		return nil, errorx.NewDefaultError("用户名已存在")
+	}
+
 	if err = l.svcCtx.DB.
 		Model(&models.User{}).
 		Where("id = ?", userid).
 		Updates(&models.User{
-			// 这里可以添加更多的字段更新
 			Username: req.Username,
 			Avatar:   req.Avatar,
 			Motto:    req.Motto,
-			Email:    req.Email,
 			Tel:      req.Tel,
 			Address:  req.Address,
 			QQ:       req.QQ,
 			Wechat:   req.Wechat,
 			GitHub:   req.GitHub,
+			Cover:    req.Cover,
 		}).
 		Error; err != nil {
-
+		return nil, err
 	}
 	return &types.UpdateUserRes{Message: "信息修改成功"}, nil
 }

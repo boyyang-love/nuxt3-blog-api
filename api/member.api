@@ -13,6 +13,7 @@ type (
         Id uint `json:"id"`
         Uid string `json:"uid"`
         Username string `json:"username"`
+        Cover string `json:"cover"`
         Avatar string `json:"avatar"`
         Account string `json:"account"`
         Motto string `json:"motto"`
@@ -30,6 +31,7 @@ type (
         Username string `json:"username"`
         Password string `json:"password"`
         Email string `json:"email"`
+        Code string `json:"code"`
     }
     SignUpRes {
         Message string `json:"message"`

@@ -32,6 +32,8 @@ func (l *SearchBlogByIdLogic) SearchBlogById(req *types.BlogSearchByIdReq) (resp
 		Model(&models.Article{}).
 		Preload("User").
 		Preload("Tag").
+		Preload("Comment").
+		Preload("Comment.User").
 		Where("id = ?", req.Id).
 		First(&article).
 		Error; err != nil {

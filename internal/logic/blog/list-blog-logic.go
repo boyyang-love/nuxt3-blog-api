@@ -27,11 +27,26 @@ func (l *ListBlogLogic) ListBlog(req *types.ListBlogReq) (resp *types.ListBlogRe
 	var articles []models.Article
 	var lists []types.ListBlogItem
 	var count int64
-	if err = l.svcCtx.DB.
-		Model(&models.Article{}).
-		Order("Created desc").
+
+	DB := l.svcCtx.DB.Model(&models.Article{})
+
+	if req.Type == "top" {
+		DB = DB.Order("star desc").Order("created desc")
+	}
+
+	if req.Type == "recently" {
+		DB = DB.Order("updated desc")
+	}
+
+	if req.Type == "created" {
+		DB = DB.Order("created desc")
+	}
+
+	if err = DB.
 		Preload("User").
 		Preload("Tag").
+		Preload("Comment").
+		Preload("Comment.User").
 		Limit(req.Limit).
 		Offset((req.Page - 1) * req.Limit).
 		Find(&articles).
