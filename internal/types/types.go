@@ -137,6 +137,16 @@ type EmailSendCodeRes struct {
 	Message string `json:"message"`
 }
 
+type FileDeleteReq struct {
+	Id       uint   `json:"id"`
+	FilePath string `json:"file_path"`
+	Type     string `json:"type,options=[blog,images,avatar,bg]"`
+}
+
+type FileDeleteRes struct {
+	Message string `json:"message"`
+}
+
 type FileInfo struct {
 	Id       uint   `json:"id"`
 	FileName string `json:"file_name"`
@@ -146,7 +156,7 @@ type FileInfo struct {
 type FileListReq struct {
 	Page  int    `form:"page,optional"`
 	Limit int    `form:"limit,optional"`
-	Type  string `form:"type,options=[blog,images,avatar]"`
+	Type  string `form:"type,options=[blog,images,avatar,bg]"`
 }
 
 type FileListRes struct {
