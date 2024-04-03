@@ -1,7 +1,10 @@
 package user
 
 import (
+	"blog_backend/common/helper"
+	"blog_backend/models"
 	"context"
+	"encoding/json"
 
 	"blog_backend/internal/svc"
 	"blog_backend/internal/types"
@@ -23,8 +26,24 @@ func NewUpdateUserPasswordLogic(ctx context.Context, svcCtx *svc.ServiceContext)
 	}
 }
 
-func (l *UpdateUserPasswordLogic) UpdateUserPassword(req *types.UpdateUserPasswordReq) error {
-	// todo: add your logic here and delete this line
+func (l *UpdateUserPasswordLogic) UpdateUserPassword(req *types.UpdateUserPasswordReq) (resp *types.UpdateUserPasswordRes, err error) {
+	userid, err := l.ctx.Value("Id").(json.Number).Int64()
+	if err != nil {
+		return nil, err
+	}
+	password, err := helper.MakeHash(req.Password)
+	if err != nil {
+		return nil, err
+	}
 
-	return nil
+	if err = l.svcCtx.DB.
+		Model(&models.User{}).
+		Select("id", "password").
+		Where("id = ?", userid).
+		Update("password", password).
+		Error; err != nil {
+		return nil, err
+	}
+
+	return &types.UpdateUserPasswordRes{Message: "密码修改成功"}, nil
 }

@@ -1,39 +1,43 @@
 syntax = "v1"
 
 type (
-	UpdateUserReq {
-		Id       uint   `json":"id"`
-		Username string `json:"username,optional"`
-		Avatar   string `json:"avatar,optional"`
-		Motto    string `json:"motto,optional"`
-		Address  string `json:"address,optional"`
-		Tel      int    `json:"tel,optional"`
-		Email    string `json:"email,optional"`
-		QQ       int    `json:"qq,optional"`
-		Wechat   string `json:"wechat,optional"`
-		GitHub   string `json:"git_hub,optional"`
-		Cover    string `json:"cover,optional"`
-	}
-	UpdateUserRes {
-		Message string `json:"message"`
-	}
+    UpdateUserReq {
+        Id uint `json":"id"`
+        Username string `json:"username,optional"`
+        Avatar string `json:"avatar,optional"`
+        Motto string `json:"motto,optional"`
+        Address string `json:"address,optional"`
+        Tel int `json:"tel,optional"`
+        Email string `json:"email,optional"`
+        QQ int `json:"qq,optional"`
+        Wechat string `json:"wechat,optional"`
+        GitHub string `json:"git_hub,optional"`
+        Cover string `json:"cover,optional"`
+    }
+    UpdateUserRes {
+        Message string `json:"message"`
+    }
 )
 
 type (
-	UpdateUserPasswordReq {
-		Password string `json:"password"`
-	}
+    UpdateUserPasswordReq {
+        Password string `json:"password"`
+    }
+
+    UpdateUserPasswordRes {
+        Message string `json:"message"`
+    }
 )
 
-@server (
-	jwt:   Auth
-	group: user
+@server(
+    jwt: Auth
+    group: user
 )
 service blog_backend {
-	@handler UpdateUser
-	post /user/update (UpdateUserReq) returns (UpdateUserRes)
+    @handler UpdateUser
+    post /user/update (UpdateUserReq) returns (UpdateUserRes)
 
-	@handler UpdateUserPassword
-	post /user/update/password (UpdateUserPasswordReq)
+    @handler UpdateUserPassword
+    post /user/update/password (UpdateUserPasswordReq) returns (UpdateUserPasswordRes)
 }
 

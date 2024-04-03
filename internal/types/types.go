@@ -265,6 +265,10 @@ type UpdateUserPasswordReq struct {
 	Password string `json:"password"`
 }
 
+type UpdateUserPasswordRes struct {
+	Message string `json:"message"`
+}
+
 type UpdateUserReq struct {
 	Id       uint   `json":"id"`
 	Username string `json:"username,optional"`

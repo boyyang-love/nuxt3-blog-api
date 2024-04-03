@@ -18,11 +18,11 @@ func UpdateUserPasswordHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 		}
 
 		l := user.NewUpdateUserPasswordLogic(r.Context(), svcCtx)
-		err := l.UpdateUserPassword(&req)
+		resp, err := l.UpdateUserPassword(&req)
 		if err != nil {
 			httpx.ErrorCtx(r.Context(), w, err)
 		} else {
-			httpx.Ok(w)
+			httpx.OkJsonCtx(r.Context(), w, resp)
 		}
 	}
 }
