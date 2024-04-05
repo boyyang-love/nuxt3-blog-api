@@ -1,61 +1,71 @@
 syntax = "v1"
 
+import "./base.api"
+
 type (
-    FileUploadReq {
-        Hash string `json:"hash,optional"`
-        FileName string `json:"file_name,optional"`
-        Ext string `json:"ext,optional"`
-        Size int64 `json:"size,optional"`
-        FilePath string `json:"file_path,optional"`
-    }
-    FileUploadRes {
-        FileName string `json:"file_name"`
-        Path string `json:"path"`
-    }
+	FileUploadReq {
+		Hash     string `json:"hash,optional"`
+		FileName string `json:"file_name,optional"`
+		Ext      string `json:"ext,optional"`
+		Size     int64  `json:"size,optional"`
+		FilePath string `json:"file_path,optional"`
+	}
+	FileUploadRes {
+		Base
+		Data FileUploadResdata `json:"data"`
+	}
+	FileUploadResdata {
+		FileName string `json:"file_name"`
+		Path     string `json:"path"`
+	}
 )
 
 type (
-    FileListReq {
-        Page int `form:"page,optional"`
-        Limit int `form:"limit,optional"`
-        Type string `form:"type,options=[blog,images,avatar,bg]"`
-    }
-    FileListRes {
-        Count int64 `json:"count"`
-        Infos []FileInfo `json:"infos"`
-    }
-    FileInfo {
-        Id uint `json:"id"`
-        FileName string `json:"file_name"`
-        FilePath string `json:"file_path"`
-    }
+	FileListReq {
+		Page  int    `form:"page,optional"`
+		Limit int    `form:"limit,optional"`
+		Type  string `form:"type,options=[blog,images,avatar,bg]"`
+	}
+	FileListRes {
+		Base
+		Data FileListResdata `json:"data"`
+	}
+	FileListResdata {
+		Count int64      `json:"count"`
+		Infos []FileInfo `json:"infos"`
+	}
+	FileInfo {
+		Id       uint   `json:"id"`
+		FileName string `json:"file_name"`
+		FilePath string `json:"file_path"`
+	}
 )
 
 type (
-    FileDeleteReq {
-        Id uint `json:"id"`
-        FilePath string `json:"file_path"`
-        Type string `json:"type,options=[blog,images,avatar,bg]"`
-    }
-    FileDeleteRes {
-        Message string `json:"message"`
-    }
+	FileDeleteReq {
+		Id       uint   `json:"id"`
+		FilePath string `json:"file_path"`
+		Type     string `json:"type,options=[blog,images,avatar,bg]"`
+	}
+	FileDeleteRes {
+		Base
+	}
 )
 
-@server(
-    jwt: Auth
-    group: upload
-    maxBytes: 20971520
-    timeout:  20s
+@server (
+	jwt:      Auth
+	group:    upload
+	maxBytes: 20971520
+	timeout:  20s
 )
 service blog_backend {
-    @handler FileUpload
-    post /file/upload (FileUploadReq) returns (FileUploadRes)
+	@handler FileUpload
+	post /file/upload (FileUploadReq) returns (FileUploadRes)
 
-    @handler FileList
-    get /file/list (FileListReq) returns (FileListRes)
+	@handler FileList
+	get /file/list (FileListReq) returns (FileListRes)
 
-    @handler FileDelete
-    post /file/delete (FileDeleteReq) returns (FileDeleteRes)
+	@handler FileDelete
+	post /file/delete (FileDeleteReq) returns (FileDeleteRes)
 }
 

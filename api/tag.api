@@ -1,65 +1,71 @@
 syntax = "v1"
 
+import "./base.api"
+
 type (
-    ListTagReq {
-        Type string `form:"type,options=[image,article]"`
-    }
-    ListTagRes {
-        Tags []TagInfo `json:"tags"`
-    }
-    TagInfo {
-        Id uint `json:"id" form:"id" gorm:"primaryKey"`
-        Uid string `json:"uid" form:"uid"`
-        // 字段
-        TagName string `json:"tag_name" form:"tag_name"`
-        Type string `json:"type" form:"type" gorm:"type:enum('image', 'article')"`
-    }
+	ListTagReq {
+		Type string `form:"type,options=[image,article]"`
+	}
+	ListTagRes {
+		Base
+		Data ListTagResData `json:"data"`
+	}
+	ListTagResData {
+		Tags []TagInfo `json:"tags"`
+	}
+	TagInfo {
+		Id  uint   `json:"id" form:"id" gorm:"primaryKey"`
+		Uid string `json:"uid" form:"uid"`
+		// 字段
+		TagName string `json:"tag_name" form:"tag_name"`
+		Type    string `json:"type" form:"type" gorm:"type:enum('image', 'article')"`
+	}
 )
 
 type (
-    CreateTagReq {
-        Name string `json:"name"`
-        Type string `json:"type,options=[article,image]"`
-    }
-    CreateTagRes {
-        Message string `json:"message"`
-    }
+	CreateTagReq {
+		Name string `json:"name"`
+		Type string `json:"type,options=[article,image]"`
+	}
+	CreateTagRes {
+		Base
+	}
 )
 
 type (
-    UpdateTagReq {
-        Id uint `json:"id"`
-        Name string `json:"name"`
-    }
-    UpdateTagRes {
-        Message string `json:"message"`
-    }
+	UpdateTagReq {
+		Id   uint   `json:"id"`
+		Name string `json:"name"`
+	}
+	UpdateTagRes {
+		Base
+	}
 )
 
 type (
-    DeleteTagReq {
-        Id uint `json:"id"`
-    }
-    DeleteTagRes {
-        Message string `json:"message"`
-    }
+	DeleteTagReq {
+		Id uint `json:"id"`
+	}
+	DeleteTagRes {
+		Base
+	}
 )
 
-@server(
-    jwt: Auth
-    group: tag
+@server (
+	jwt:   Auth
+	group: tag
 )
 service blog_backend {
-    @handler ListTag
-    get /tag/list (ListTagReq) returns (ListTagRes)
+	@handler ListTag
+	get /tag/list (ListTagReq) returns (ListTagRes)
 
-    @handler CreateTag
-    post /tag/create (CreateTagReq) returns (CreateTagRes)
+	@handler CreateTag
+	post /tag/create (CreateTagReq) returns (CreateTagRes)
 
-    @handler UpdateTag
-    post /tag/update (UpdateTagReq) returns (UpdateTagRes)
+	@handler UpdateTag
+	post /tag/update (UpdateTagReq) returns (UpdateTagRes)
 
-    @handler DeleteTag
-    post /tag/delete (DeleteTagReq) returns (DeleteTagRes)
+	@handler DeleteTag
+	post /tag/delete (DeleteTagReq) returns (DeleteTagRes)
 }
 
