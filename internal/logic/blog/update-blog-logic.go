@@ -59,7 +59,12 @@ func (l *UpdateBlogLogic) UpdateBlog(req *types.UpdateBlogReq) (resp *types.Upda
 		return nil, err
 	}
 
-	return &types.UpdateBlogRes{Message: "更新成功"}, nil
+	return &types.UpdateBlogRes{
+		Base: types.Base{
+			Code: 1,
+			Msg:  "更新成功",
+		},
+	}, nil
 }
 
 func (l *UpdateBlogLogic) getTag(ids []uint) (tags []*models.Tag, err error) {

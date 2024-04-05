@@ -34,5 +34,10 @@ func (l *DeleteCommentLogic) DeleteComment(req *types.CommentDeleteReq) (resp *t
 		return nil, err
 	}
 
-	return &types.CommentDeleteRes{Message: "删除成功"}, nil
+	return &types.CommentDeleteRes{
+		Base: types.Base{
+			Code: 1,
+			Msg:  "删除评论成功",
+		},
+	}, nil
 }

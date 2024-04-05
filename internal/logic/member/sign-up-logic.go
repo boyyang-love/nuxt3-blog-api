@@ -61,7 +61,12 @@ func (l *SignUpLogic) SignUp(req *types.SignUpReq) (resp *types.SignUpRes, err e
 			return resp, err
 		}
 
-		return &types.SignUpRes{Message: "注册成功"}, nil
+		return &types.SignUpRes{
+			Base: types.Base{
+				Code: 1,
+				Msg:  "注册成功",
+			},
+		}, nil
 	}
 
 	if user.Username == req.Username {

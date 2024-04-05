@@ -27,7 +27,12 @@ func NewFileDeleteLogic(ctx context.Context, svcCtx *svc.ServiceContext) *FileDe
 
 func (l *FileDeleteLogic) FileDelete(req *types.FileDeleteReq) (resp *types.FileDeleteRes, err error) {
 	if err = l.del(req.Id, req.FilePath); err != nil {
-		return nil, errorx.NewDefaultError(err.Error())
+		return &types.FileDeleteRes{
+			Base: types.Base{
+				Code: 1,
+				Msg:  "删除成功",
+			},
+		}, errorx.NewDefaultError(err.Error())
 	}
 	return
 }
@@ -84,7 +89,6 @@ func (l *FileDeleteLogic) delDb(id uint) error {
 
 // 删除对象存储数据
 func (l *FileDeleteLogic) delCloudDb(path string) error {
-	fmt.Println(path, "hhhhhhhh")
 	if _, err := l.svcCtx.Client.
 		Object.
 		Delete(

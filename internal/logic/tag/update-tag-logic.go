@@ -42,6 +42,9 @@ func (l *UpdateTagLogic) UpdateTag(req *types.UpdateTagReq) (resp *types.UpdateT
 	}
 
 	return &types.UpdateTagRes{
-		Message: "更新成功",
+		Base: types.Base{
+			Code: 1,
+			Msg:  "更新成功",
+		},
 	}, nil
 }

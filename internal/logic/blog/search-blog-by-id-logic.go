@@ -43,6 +43,10 @@ func (l *SearchBlogByIdLogic) SearchBlogById(req *types.BlogSearchByIdReq) (resp
 	_ = copier.Copy(&list, &article)
 
 	return &types.BlogSearchByIdRes{
-		Info: list,
+		Base: types.Base{
+			Code: 1,
+			Msg:  "ok",
+		},
+		Data: types.BlogSearchByIdResData{Info: list},
 	}, nil
 }

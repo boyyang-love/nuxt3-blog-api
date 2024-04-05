@@ -59,7 +59,13 @@ func (l *ListBlogLogic) ListBlog(req *types.ListBlogReq) (resp *types.ListBlogRe
 	_ = copier.Copy(&lists, &articles)
 
 	return &types.ListBlogRes{
-		Count: count,
-		List:  lists,
+		Base: types.Base{
+			Code: 1,
+			Msg:  "ok",
+		},
+		Data: types.ListBlogResData{
+			Count: count,
+			List:  lists,
+		},
 	}, nil
 }

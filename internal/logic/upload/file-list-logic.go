@@ -63,7 +63,13 @@ func (l *FileListLogic) FileList(req *types.FileListReq) (resp *types.FileListRe
 	_ = copier.Copy(&infos, &fileInfo)
 
 	return &types.FileListRes{
-		Count: count,
-		Infos: infos,
+		Base: types.Base{
+			Code: 1,
+			Msg:  "ok",
+		},
+		Data: types.FileListResdata{
+			Count: count,
+			Infos: infos,
+		},
 	}, nil
 }

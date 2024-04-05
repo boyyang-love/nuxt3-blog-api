@@ -62,8 +62,14 @@ func (l *SignInLogic) SignIn(req *types.SignInReq) (resp *types.SignInRes, err e
 		}
 
 		return &types.SignInRes{
-			UserInfo: userInfo,
-			Token:    token,
+			Base: types.Base{
+				Code: 1,
+				Msg:  "登录成功",
+			},
+			Data: types.SignInResData{
+				UserInfo: userInfo,
+				Token:    token,
+			},
 		}, err
 	}
 }

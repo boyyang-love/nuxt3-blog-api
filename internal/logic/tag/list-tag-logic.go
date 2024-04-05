@@ -42,6 +42,10 @@ func (l *ListTagLogic) ListTag(req *types.ListTagReq) (resp *types.ListTagRes, e
 	}
 
 	return &types.ListTagRes{
-		Tags: tags,
+		Base: types.Base{
+			Code: 1,
+			Msg:  "ok",
+		},
+		Data: types.ListTagResData{Tags: tags},
 	}, nil
 }

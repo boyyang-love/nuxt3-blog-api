@@ -41,6 +41,9 @@ func (l *SendCodeLogic) SendCode(req *types.EmailSendCodeReq) (resp *types.Email
 	}
 
 	return &types.EmailSendCodeRes{
-		Message: "验证码发送成功",
+		Base: types.Base{
+			Code: 1,
+			Msg:  "验证码发送成功",
+		},
 	}, nil
 }

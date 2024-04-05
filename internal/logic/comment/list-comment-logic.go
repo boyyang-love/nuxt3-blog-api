@@ -53,7 +53,13 @@ func (l *ListCommentLogic) ListComment(req *types.CommentListReq) (resp *types.C
 	_ = copier.Copy(&info, &comments)
 
 	return &types.CommentListRes{
-		Count: count,
-		Info:  info,
+		Base: types.Base{
+			Code: 1,
+			Msg:  "ok",
+		},
+		Data: types.CommentListResData{
+			Count: count,
+			Info:  info,
+		},
 	}, nil
 }

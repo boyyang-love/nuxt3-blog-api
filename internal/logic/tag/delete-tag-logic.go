@@ -39,6 +39,9 @@ func (l *DeleteTagLogic) DeleteTag(req *types.DeleteTagReq) (resp *types.DeleteT
 	}
 
 	return &types.DeleteTagRes{
-		Message: "删除成功",
+		Base: types.Base{
+			Code: 1,
+			Msg:  "删除成功",
+		},
 	}, nil
 }

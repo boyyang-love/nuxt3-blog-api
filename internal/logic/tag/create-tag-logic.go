@@ -43,6 +43,9 @@ func (l *CreateTagLogic) CreateTag(req *types.CreateTagReq) (resp *types.CreateT
 	}
 
 	return &types.CreateTagRes{
-		Message: "标签创建成功",
+		Base: types.Base{
+			Code: 1,
+			Msg:  "标签创建成功",
+		},
 	}, nil
 }

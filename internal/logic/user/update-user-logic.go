@@ -60,5 +60,10 @@ func (l *UpdateUserLogic) UpdateUser(req *types.UpdateUserReq) (resp *types.Upda
 		Error; err != nil {
 		return nil, err
 	}
-	return &types.UpdateUserRes{Message: "信息修改成功"}, nil
+	return &types.UpdateUserRes{
+		Base: types.Base{
+			Code: 1,
+			Msg:  "更新用户信息成功",
+		},
+	}, nil
 }

@@ -45,5 +45,10 @@ func (l *CreateCommentLogic) CreateComment(req *types.CommentCreateReq) (resp *t
 		return nil, err
 	}
 
-	return &types.CommentCreateRes{Message: "评论成功"}, nil
+	return &types.CommentCreateRes{
+		Base: types.Base{
+			Code: 1,
+			Msg:  "评论成功",
+		},
+	}, nil
 }

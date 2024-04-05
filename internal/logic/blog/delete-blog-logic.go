@@ -40,5 +40,10 @@ func (l *DeleteBlogLogic) DeleteBlog(req *types.DeleteBlogReq) (resp *types.Dele
 		return nil, err
 	}
 
-	return &types.DeleteBlogRes{Message: "删除成功"}, nil
+	return &types.DeleteBlogRes{
+		Base: types.Base{
+			Code: 1,
+			Msg:  "删除成功",
+		},
+	}, nil
 }

@@ -52,8 +52,11 @@ func (l *CreateBlogLogic) CreateBlog(req *types.CreateBlogReq) (resp *types.Crea
 	}
 
 	return &types.CreateBlogRes{
-		Id:      article.Id,
-		Message: "创建成功",
+		Base: types.Base{
+			Code: 1,
+			Msg:  "创建成功",
+		},
+		Data: types.CreateBlogResData{Id: article.Id},
 	}, nil
 }
 

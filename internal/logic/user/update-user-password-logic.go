@@ -45,5 +45,10 @@ func (l *UpdateUserPasswordLogic) UpdateUserPassword(req *types.UpdateUserPasswo
 		return nil, err
 	}
 
-	return &types.UpdateUserPasswordRes{Message: "密码修改成功"}, nil
+	return &types.UpdateUserPasswordRes{
+		Base: types.Base{
+			Code: 1,
+			Msg:  "更新用户密码成功",
+		},
+	}, nil
 }
