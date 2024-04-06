@@ -69,7 +69,7 @@ func FileUploadHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 			httpx.OkJsonCtx(r.Context(), w, types.FileUploadRes{
 				Base: types.Base{
 					Code: 1,
-					Msg:  "ok",
+					Msg:  fmt.Sprintf("文件[%s]上传成功", info.FileName),
 				},
 				Data: types.FileUploadResdata{
 					FileName: info.FileName,

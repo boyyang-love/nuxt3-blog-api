@@ -6,7 +6,6 @@ import (
 	"blog_backend/internal/types"
 	"blog_backend/models"
 	"context"
-	"fmt"
 	"github.com/zeromicro/go-zero/core/logx"
 	"gorm.io/gorm"
 )
@@ -27,14 +26,14 @@ func NewFileDeleteLogic(ctx context.Context, svcCtx *svc.ServiceContext) *FileDe
 
 func (l *FileDeleteLogic) FileDelete(req *types.FileDeleteReq) (resp *types.FileDeleteRes, err error) {
 	if err = l.del(req.Id, req.FilePath); err != nil {
-		return &types.FileDeleteRes{
-			Base: types.Base{
-				Code: 1,
-				Msg:  "删除成功",
-			},
-		}, errorx.NewDefaultError(err.Error())
+		return nil, errorx.NewDefaultError(err.Error())
 	}
-	return
+	return &types.FileDeleteRes{
+		Base: types.Base{
+			Code: 1,
+			Msg:  "文件删除成功",
+		},
+	}, nil
 }
 
 func (l *FileDeleteLogic) del(id uint, path string) (err error) {
@@ -95,7 +94,6 @@ func (l *FileDeleteLogic) delCloudDb(path string) error {
 			context.Background(),
 			path,
 		); err != nil {
-		fmt.Println(err)
 		return err
 	}
 
