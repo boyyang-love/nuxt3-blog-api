@@ -19,6 +19,10 @@ type (
 		// 字段
 		TagName string `json:"tag_name" form:"tag_name"`
 		Type    string `json:"type" form:"type" gorm:"type:enum('image', 'article')"`
+		Article []*ArticleInfo `json:"articles" gorm:"column:Article;many2many:article_tag"`
+	}
+	ArticleInfo {
+		Id uint `json:"id"`
 	}
 )
 

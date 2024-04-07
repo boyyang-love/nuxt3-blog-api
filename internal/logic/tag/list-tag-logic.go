@@ -1,12 +1,13 @@
 package tag
 
 import (
+	"blog_backend/internal/svc"
+	"blog_backend/internal/types"
 	"blog_backend/models"
 	"context"
 	"encoding/json"
-
-	"blog_backend/internal/svc"
-	"blog_backend/internal/types"
+	"github.com/jinzhu/copier"
+	"gorm.io/gorm"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -31,15 +32,21 @@ func (l *ListTagLogic) ListTag(req *types.ListTagReq) (resp *types.ListTagRes, e
 		return nil, err
 	}
 	var tags []types.TagInfo
+	var t []models.Tag
 	if err = l.svcCtx.DB.
 		Model(&models.Tag{}).
 		Order("created desc").
+		Preload("Article", func(db *gorm.DB) *gorm.DB {
+			return db.Select("id")
+		}).
 		Select("id", "uid", "tag_name", "type", "user_id").
-		Where("user_id = ?", userid).
-		Find(&tags).
+		Where("user_id = ? and type = ?", userid, req.Type).
+		Find(&t).
 		Error; err != nil {
 		return nil, err
 	}
+
+	_ = copier.Copy(&tags, &t)
 
 	return &types.ListTagRes{
 		Base: types.Base{

@@ -9,6 +9,7 @@ import (
 	comment "blog_backend/internal/handler/comment"
 	email "blog_backend/internal/handler/email"
 	member "blog_backend/internal/handler/member"
+	search "blog_backend/internal/handler/search"
 	tag "blog_backend/internal/handler/tag"
 	upload "blog_backend/internal/handler/upload"
 	user "blog_backend/internal/handler/user"
@@ -96,6 +97,16 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Method:  http.MethodPost,
 				Path:    "/user/signup",
 				Handler: member.SignUpHandler(serverCtx),
+			},
+		},
+	)
+
+	server.AddRoutes(
+		[]rest.Route{
+			{
+				Method:  http.MethodGet,
+				Path:    "/search",
+				Handler: search.KeywordsSearchHandler(serverCtx),
 			},
 		},
 	)
