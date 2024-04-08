@@ -9,6 +9,7 @@ type (
         Cover string `json:"cover"`
         Content string `json:"content"`
         Tags []uint `json:"tags,optional"`
+        Keywords string `json:"keywords"`
     }
     CreateBlogRes {
         Base
@@ -26,6 +27,7 @@ type (
         Des string `json:"des"`
         Cover string `json:"cover"`
         Content string `json:"content"`
+        Keywords string `json:"keywords"`
         Tags []uint `json:"tags,optional"`
     }
     UpdateBlogRes {
@@ -66,6 +68,7 @@ type (
         Cover string `json:"cover"`
         Content string `json:"content"`
         UserId uint `json:"user_id"`
+        Keywords string `json:"keywords"`
         // 关系
         User BlogUserInfo `json:"user" gorm:"column:User;reference:UserId"`
         Tag []*BlogTags `json:"tag" gorm:"column:Tag;many2many:article_tag"`

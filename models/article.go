@@ -14,12 +14,13 @@ type Article struct {
 	Updated   int64      `gorm:"autoUpdateTime:milli"`
 	DeletedAt *time.Time `json:"deleted_at"`
 	// 字段
-	Title   string `json:"title" form:"title"`
-	Des     string `json:"des" form:"des"`
-	Cover   string `json:"cover" form:"cover"`
-	Content string `json:"content" form:"content" gorm:"size:15000"`
-	UserId  uint   `json:"user_id" form:"user_id"`
-	Star    int    `json:"star" form:"star"`
+	Title    string `json:"title" form:"title"`
+	Des      string `json:"des" form:"des"`
+	Cover    string `json:"cover" form:"cover"`
+	Content  string `json:"content" form:"content" gorm:"size:15000"`
+	Keywords string `json:"keywords" form:"keywords"`
+	UserId   uint   `json:"user_id" form:"user_id"`
+	Star     int    `json:"star" form:"star"`
 	// 关系
 	User    User      `json:"user" form:"user" gorm:"reference:UserId"`
 	Tag     []*Tag    `json:"tag" form:"tag" gorm:"many2many:article_tag"`

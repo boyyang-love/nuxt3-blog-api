@@ -132,11 +132,12 @@ type CommentUserInfo struct {
 }
 
 type CreateBlogReq struct {
-	Title   string `json:"title"`
-	Des     string `json:"des"`
-	Cover   string `json:"cover"`
-	Content string `json:"content"`
-	Tags    []uint `json:"tags,optional"`
+	Title    string `json:"title"`
+	Des      string `json:"des"`
+	Cover    string `json:"cover"`
+	Content  string `json:"content"`
+	Tags     []uint `json:"tags,optional"`
+	Keywords string `json:"keywords"`
 }
 
 type CreateBlogRes struct {
@@ -232,18 +233,19 @@ type FileUploadResdata struct {
 }
 
 type ListBlogItem struct {
-	Id      uint           `json:"id"`
-	Uid     string         `json:"uid"`
-	Created int64          `json:"created"`
-	Updated int64          `json:"updated"`
-	Title   string         `json:"title"`
-	Des     string         `json:"des"`
-	Cover   string         `json:"cover"`
-	Content string         `json:"content"`
-	UserId  uint           `json:"user_id"`
-	User    BlogUserInfo   `json:"user" gorm:"column:User;reference:UserId"`
-	Tag     []*BlogTags    `json:"tag" gorm:"column:Tag;many2many:article_tag"`
-	Comment []BlogComments `json:"comment" gorm:"column:Comment"`
+	Id       uint           `json:"id"`
+	Uid      string         `json:"uid"`
+	Created  int64          `json:"created"`
+	Updated  int64          `json:"updated"`
+	Title    string         `json:"title"`
+	Des      string         `json:"des"`
+	Cover    string         `json:"cover"`
+	Content  string         `json:"content"`
+	UserId   uint           `json:"user_id"`
+	Keywords string         `json:"keywords"`
+	User     BlogUserInfo   `json:"user" gorm:"column:User;reference:UserId"`
+	Tag      []*BlogTags    `json:"tag" gorm:"column:Tag;many2many:article_tag"`
+	Comment  []BlogComments `json:"comment" gorm:"column:Comment"`
 }
 
 type ListBlogReq struct {
@@ -333,12 +335,13 @@ type TagInfo struct {
 }
 
 type UpdateBlogReq struct {
-	Id      uint   `json:"id"`
-	Title   string `json:"title"`
-	Des     string `json:"des"`
-	Cover   string `json:"cover"`
-	Content string `json:"content"`
-	Tags    []uint `json:"tags,optional"`
+	Id       uint   `json:"id"`
+	Title    string `json:"title"`
+	Des      string `json:"des"`
+	Cover    string `json:"cover"`
+	Content  string `json:"content"`
+	Keywords string `json:"keywords"`
+	Tags     []uint `json:"tags,optional"`
 }
 
 type UpdateBlogRes struct {
