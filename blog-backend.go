@@ -53,9 +53,10 @@ func main() {
 		case errors.As(err, &e):
 			return http.StatusInternalServerError, e.Data()
 		default:
-			e.Code = 0
-			e.Msg = err.Error()
-			return http.StatusInternalServerError, e.Data()
+			return http.StatusInternalServerError, errorx.CodeError{
+				Code: 0,
+				Msg:  err.Error(),
+			}
 		}
 	})
 

@@ -31,6 +31,11 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Path:    "/blog/search/id",
 				Handler: blog.SearchBlogByIdHandler(serverCtx),
 			},
+			{
+				Method:  http.MethodPost,
+				Path:    "/blog/search/ids",
+				Handler: blog.SearchBlogByIdsHandler(serverCtx),
+			},
 		},
 	)
 

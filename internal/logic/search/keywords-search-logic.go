@@ -29,7 +29,6 @@ func (l *KeywordsSearchLogic) KeywordsSearch(req *types.SearchReq) (resp *types.
 	var infos []types.SearchResDataInfo
 
 	if err = l.svcCtx.DB.
-		Debug().
 		Order("created desc").
 		Model(&models.Article{}).
 		Select("id", "uid", "title", "des", "cover", "created").

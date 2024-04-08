@@ -42,6 +42,27 @@ type BlogSearchByIdResData struct {
 	Info ListBlogItem `json:"info"`
 }
 
+type BlogSearchByIdsListInfo struct {
+	Id    uint   `json:"id"`
+	Uid   string `json:"uid"`
+	Title string `json:"title"`
+	Des   string `json:"des"`
+	Cover string `json:"cover"`
+}
+
+type BlogSearchByIdsReq struct {
+	Ids []uint `json:"ids"`
+}
+
+type BlogSearchByIdsRes struct {
+	Base
+	Data BlogSearchByIdsResData `json:"data"`
+}
+
+type BlogSearchByIdsResData struct {
+	Info []BlogSearchByIdsListInfo `json:"info"`
+}
+
 type BlogTags struct {
 	Id      uint   `json:"id" json:"id"`
 	Uid     string `json:"uid"`
