@@ -25,11 +25,20 @@ func FileUploadHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 			httpx.ErrorCtx(r.Context(), w, err)
 		}
 
-		// file hash
 		fileHash, err := helper.MakeFileHash(file, fileHeader)
+		if err != nil {
+			httpx.ErrorCtx(r.Context(), w, err)
+		}
+
+		x, y, err := helper.ImageWH(fileHeader)
+		if err != nil {
+			httpx.ErrorCtx(r.Context(), w, err)
+		}
+
 		// 用户上传名称 以及路径（blog,image）
 		fileCustomName := r.PostFormValue("file_name")
 		fileCustomDir := r.PostFormValue("dir")
+
 		// userid
 		userid, err := r.Context().Value("Id").(json.Number).Int64()
 		if err != nil {
@@ -58,6 +67,8 @@ func FileUploadHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 				FilePath: fileCloudPath,
 				UserId:   uint(userid),
 				Type:     fileCustomDir,
+				W:        x,
+				H:        y,
 			}
 
 			info, err = AddToMysql(svcCtx.DB, &uploadData)

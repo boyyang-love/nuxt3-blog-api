@@ -38,7 +38,7 @@ func (l *FileListLogic) FileList(req *types.FileListReq) (resp *types.FileListRe
 	DB := l.svcCtx.DB.
 		Model(&models.Upload{}).
 		Order("Updated desc").
-		Select("id", "file_name", "file_path").
+		Select("id", "file_name", "file_path", "w", "h").
 		Where("user_id = ? and type = ?", userid, req.Type)
 
 	if req.Page == 0 || req.Limit == 0 {

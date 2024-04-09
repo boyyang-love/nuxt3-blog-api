@@ -20,6 +20,8 @@ type Upload struct {
 	FilePath  string     `json:"file_path" form:"file_path"`
 	UserId    uint       `json:"user_id" form:"user_id"`
 	Type      string     `json:"type" form:"type"`
+	W         int        `json:"w" form:"w"`
+	H         int        `json:"h" form:"h"`
 }
 
 func (u *Upload) TableName() string {

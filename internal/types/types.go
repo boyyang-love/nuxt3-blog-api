@@ -196,6 +196,8 @@ type FileInfo struct {
 	Id       uint   `json:"id"`
 	FileName string `json:"file_name"`
 	FilePath string `json:"file_path"`
+	W        int    `json:"w"`
+	H        int    `json:"h"`
 }
 
 type FileListReq struct {
