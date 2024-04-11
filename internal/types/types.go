@@ -63,6 +63,31 @@ type BlogSearchByIdsResData struct {
 	Info []BlogSearchByIdsListInfo `json:"info"`
 }
 
+type BlogSearchByUserIdInfo struct {
+	Id      uint   `json:"id"`
+	Title   string `json:"title"`
+	Des     string `json:"des"`
+	Cover   string `json:"cover"`
+	Created int64  `json:"created"`
+	Updated int64  `json:"updated"`
+}
+
+type BlogSearchByUserIdReq struct {
+	Page  int  `json:"page"`
+	Limit int  `json:"limit"`
+	Id    uint `json:"id"`
+}
+
+type BlogSearchByUserIdRes struct {
+	Base
+	Data BlogSearchByUserIdResData `json:"data"`
+}
+
+type BlogSearchByUserIdResData struct {
+	Count int64                    `json:"count"`
+	Infos []BlogSearchByUserIdInfo `json:"infos"`
+}
+
 type BlogTags struct {
 	Id      uint   `json:"id" json:"id"`
 	Uid     string `json:"uid"`
@@ -200,6 +225,30 @@ type FileInfo struct {
 	H        int    `json:"h"`
 }
 
+type FileListPublicReq struct {
+	Id    uint `form:"id"`
+	Page  int  `form:"page"`
+	Limit int  `form:"limit"`
+}
+
+type FileListPublicRes struct {
+	Base
+	Data FileListPublicResData `json:"data"`
+}
+
+type FileListPublicResData struct {
+	Count int64                       `json:"count"`
+	Infos []FileListPublicResDataInfo `json:"infos"`
+}
+
+type FileListPublicResDataInfo struct {
+	Id       uint   `json:"id"`
+	FileName string `json:"file_name"`
+	FilePath string `json:"file_path"`
+	W        int    `json:"w"`
+	H        int    `json:"h"`
+}
+
 type FileListReq struct {
 	Page  int    `form:"page,optional"`
 	Limit int    `form:"limit,optional"`
@@ -232,6 +281,25 @@ type FileUploadRes struct {
 type FileUploadResdata struct {
 	FileName string `json:"file_name"`
 	Path     string `json:"path"`
+}
+
+type InfoUserReq struct {
+	Id uint `form:"id"`
+}
+
+type InfoUserRes struct {
+	Base
+	Data InfoUserResData `json:"data"`
+}
+
+type InfoUserResData struct {
+	Id             uint   `json:"id"`
+	Username       string `json:"username"`
+	Motto          string `json:"motto"`
+	Avatar         string `json:"avatar"`
+	Cover          string `json:"cover"`
+	BlogCount      int64  `json:"blog_count"`
+	WallpaperCount int64  `json:"wallpaper_count"`
 }
 
 type ListBlogItem struct {

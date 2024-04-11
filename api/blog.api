@@ -132,6 +132,30 @@ type (
     }
 )
 
+type (
+    BlogSearchByUserIdReq {
+        Page int `json:"page"`
+        Limit int `json:"limit"`
+        Id uint `json:"id"`
+    }
+    BlogSearchByUserIdRes {
+        Base
+        Data BlogSearchByUserIdResData `json:"data"`
+    }
+    BlogSearchByUserIdResData {
+        Count int64 `json:"count"`
+        Infos []BlogSearchByUserIdInfo `json:"infos"`
+    }
+    BlogSearchByUserIdInfo {
+        Id uint `json:"id"`
+        Title string `json:"title"`
+        Des string `json:"des"`
+        Cover string `json:"cover"`
+        Created int64 `json:"created"`
+        Updated int64 `json:"updated"`
+    }
+)
+
 @server(
     group: blog
 )
@@ -144,6 +168,9 @@ service blog_backend {
 
     @handler SearchBlogByIds
     post /blog/search/ids (BlogSearchByIdsReq) returns (BlogSearchByIdsRes)
+
+    @handler SearchBlogByUserId
+    post /blog/search/userid (BlogSearchByUserIdReq) returns (BlogSearchByUserIdRes)
 }
 
 @server(

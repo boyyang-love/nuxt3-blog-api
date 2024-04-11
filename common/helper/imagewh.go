@@ -1,7 +1,6 @@
 package helper
 
 import (
-	"fmt"
 	"image"
 	_ "image/gif"
 	_ "image/jpeg"
@@ -23,6 +22,5 @@ func ImageWH(fileHeader *multipart.FileHeader) (w int, h int, err error) {
 
 	g := img.Bounds()
 
-	fmt.Println(g.Dx(), g.Dy())
 	return g.Dx(), g.Dy(), nil
 }

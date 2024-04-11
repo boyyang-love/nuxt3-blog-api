@@ -3,42 +3,69 @@ syntax = "v1"
 import "./base.api"
 
 type (
-	UpdateUserReq {
-		Id       uint   `json":"id"`
-		Username string `json:"username,optional"`
-		Avatar   string `json:"avatar,optional"`
-		Motto    string `json:"motto,optional"`
-		Address  string `json:"address,optional"`
-		Tel      int    `json:"tel,optional"`
-		Email    string `json:"email,optional"`
-		QQ       int    `json:"qq,optional"`
-		Wechat   string `json:"wechat,optional"`
-		GitHub   string `json:"git_hub,optional"`
-		Cover    string `json:"cover,optional"`
-	}
-	UpdateUserRes {
-		Base
-	}
+    UpdateUserReq {
+        Id uint `json":"id"`
+        Username string `json:"username,optional"`
+        Avatar string `json:"avatar,optional"`
+        Motto string `json:"motto,optional"`
+        Address string `json:"address,optional"`
+        Tel int `json:"tel,optional"`
+        Email string `json:"email,optional"`
+        QQ int `json:"qq,optional"`
+        Wechat string `json:"wechat,optional"`
+        GitHub string `json:"git_hub,optional"`
+        Cover string `json:"cover,optional"`
+    }
+    UpdateUserRes {
+        Base
+    }
 )
 
 type (
-	UpdateUserPasswordReq {
-		Password string `json:"password"`
-	}
-	UpdateUserPasswordRes {
-		Base
-	}
+    UpdateUserPasswordReq {
+        Password string `json:"password"`
+    }
+    UpdateUserPasswordRes {
+        Base
+    }
 )
 
-@server (
-	jwt:   Auth
-	group: user
+type (
+    InfoUserReq {
+        Id uint `form:"id"`
+    }
+    InfoUserRes {
+        Base
+        Data InfoUserResData `json:"data"`
+    }
+    InfoUserResData {
+        Id uint `json:"id"`
+        Username string `json:"username"`
+        Motto string `json:"motto"`
+        Avatar string `json:"avatar"`
+        Cover string `json:"cover"`
+        BlogCount int64 `json:"blog_count"`
+        WallpaperCount int64 `json:"wallpaper_count"`
+    }
+)
+
+@server(
+    group: user
 )
 service blog_backend {
-	@handler UpdateUser
-	post /user/update (UpdateUserReq) returns (UpdateUserRes)
+    @handler InfoUser
+    get /user/info (InfoUserReq) returns (InfoUserResData)
+}
 
-	@handler UpdateUserPassword
-	post /user/update/password (UpdateUserPasswordReq) returns (UpdateUserPasswordRes)
+@server(
+    jwt: Auth
+    group: user
+)
+service blog_backend {
+    @handler UpdateUser
+    post /user/update (UpdateUserReq) returns (UpdateUserRes)
+
+    @handler UpdateUserPassword
+    post /user/update/password (UpdateUserPasswordReq) returns (UpdateUserPasswordRes)
 }
 

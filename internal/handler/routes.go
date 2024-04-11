@@ -36,6 +36,11 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Path:    "/blog/search/ids",
 				Handler: blog.SearchBlogByIdsHandler(serverCtx),
 			},
+			{
+				Method:  http.MethodPost,
+				Path:    "/blog/search/userid",
+				Handler: blog.SearchBlogByUserIdHandler(serverCtx),
+			},
 		},
 	)
 
@@ -145,6 +150,16 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 	server.AddRoutes(
 		[]rest.Route{
 			{
+				Method:  http.MethodGet,
+				Path:    "/file/list/public",
+				Handler: upload.FileInfoPublicHandler(serverCtx),
+			},
+		},
+	)
+
+	server.AddRoutes(
+		[]rest.Route{
+			{
 				Method:  http.MethodPost,
 				Path:    "/file/delete",
 				Handler: upload.FileDeleteHandler(serverCtx),
@@ -163,6 +178,16 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 		rest.WithJwt(serverCtx.Config.Auth.AccessSecret),
 		rest.WithTimeout(20000*time.Millisecond),
 		rest.WithMaxBytes(20971520),
+	)
+
+	server.AddRoutes(
+		[]rest.Route{
+			{
+				Method:  http.MethodGet,
+				Path:    "/user/info",
+				Handler: user.InfoUserHandler(serverCtx),
+			},
+		},
 	)
 
 	server.AddRoutes(
