@@ -300,6 +300,7 @@ type InfoUserResData struct {
 	Cover          string `json:"cover"`
 	BlogCount      int64  `json:"blog_count"`
 	WallpaperCount int64  `json:"wallpaper_count"`
+	TagsCount      int64  `json:"tags_count"`
 }
 
 type ListBlogItem struct {
@@ -335,7 +336,8 @@ type ListBlogResData struct {
 }
 
 type ListTagReq struct {
-	Type string `form:"type,options=[image,article]"`
+	UserId uint   `form:"user_id,optional"`
+	Type   string `form:"type,options=[image,article]"`
 }
 
 type ListTagRes struct {

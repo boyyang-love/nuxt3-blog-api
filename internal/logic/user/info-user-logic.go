@@ -40,9 +40,13 @@ func (l *InfoUserLogic) InfoUser(req *types.InfoUserReq) (resp *types.InfoUserRe
 
 	_ = copier.Copy(&info, user)
 
-	info.BlogCount, info.WallpaperCount, err = l.UserCount(req.Id)
+	counts, err := l.UserCount(req.Id)
 	if err != nil {
 		return nil, err
+	} else {
+		info.BlogCount = counts.BlogCount
+		info.WallpaperCount = counts.WallpaperCount
+		info.TagsCount = counts.TagsCount
 	}
 
 	return &types.InfoUserRes{
@@ -54,24 +58,39 @@ func (l *InfoUserLogic) InfoUser(req *types.InfoUserReq) (resp *types.InfoUserRe
 	}, nil
 }
 
-func (l *InfoUserLogic) UserCount(userId uint) (blogCount int64, wallpaperCount int64, err error) {
+type CountRes struct {
+	BlogCount      int64
+	WallpaperCount int64
+	TagsCount      int64
+}
+
+func (l *InfoUserLogic) UserCount(userId uint) (count CountRes, err error) {
 	if err = l.svcCtx.DB.
 		Model(&models.Article{}).
 		Select("id").
 		Where("user_id = ?", userId).
-		Count(&blogCount).
+		Count(&count.BlogCount).
 		Error; err != nil {
-		return blogCount, wallpaperCount, err
+		return count, err
 	}
 
 	if err = l.svcCtx.DB.
 		Model(&models.Upload{}).
 		Select("id").
 		Where("user_id = ? and type = ?", userId, "images").
-		Count(&wallpaperCount).
+		Count(&count.WallpaperCount).
 		Error; err != nil {
-		return blogCount, wallpaperCount, err
+		return count, err
 	}
 
-	return blogCount, wallpaperCount, nil
+	if err = l.svcCtx.DB.
+		Model(&models.Tag{}).
+		Select("id").
+		Where("user_id = ?", userId).
+		Count(&count.TagsCount).
+		Error; err != nil {
+		return count, err
+	}
+
+	return count, nil
 }

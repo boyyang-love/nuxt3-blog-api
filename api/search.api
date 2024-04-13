@@ -3,32 +3,32 @@ syntax = "v1"
 import "./base.api"
 
 type (
-    SearchReq {
-        Keyword string `form:"keyword"`
-        Type string `form:"type,options=[article,images]"`
-    }
-    SearchRes {
-        Base
-        Data SearchResData `json:"data"`
-    }
-    SearchResData {
-        Infos []SearchResDataInfo `json:"infos"`
-    }
-    SearchResDataInfo {
-        Id uint `json:"id"`
-        Uid string `json:"uid"`
-        Created int64 `json:"created"`
-        Title string `json:"title"`
-        Des string `json:"des"`
-        Cover string `json:"cover"`
-    }
+	SearchReq {
+		Keyword string `form:"keyword"`
+		Type    string `form:"type,options=[article,images]"`
+	}
+	SearchRes {
+		Base
+		Data SearchResData `json:"data"`
+	}
+	SearchResData {
+		Infos []SearchResDataInfo `json:"infos"`
+	}
+	SearchResDataInfo {
+		Id      uint   `json:"id"`
+		Uid     string `json:"uid"`
+		Created int64  `json:"created"`
+		Title   string `json:"title"`
+		Des     string `json:"des"`
+		Cover   string `json:"cover"`
+	}
 )
 
-@server(
-    group: search
+@server (
+	group: search
 )
 service blog_backend {
-    @handler KeywordsSearch
-    get /search (SearchReq) returns (SearchRes)
+	@handler KeywordsSearch
+	get /search (SearchReq) returns (SearchRes)
 }
 

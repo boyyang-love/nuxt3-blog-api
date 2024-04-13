@@ -31,6 +31,9 @@ func (l *ListTagLogic) ListTag(req *types.ListTagReq) (resp *types.ListTagRes, e
 	if err != nil {
 		return nil, err
 	}
+	if req.UserId != 0 {
+		userid = int64(req.UserId)
+	}
 	var tags []types.TagInfo
 	var t []models.Tag
 	if err = l.svcCtx.DB.

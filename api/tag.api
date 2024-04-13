@@ -4,6 +4,7 @@ import "./base.api"
 
 type (
 	ListTagReq {
+		UserId uint `form:"user_id,optional"`
 		Type string `form:"type,options=[image,article]"`
 	}
 	ListTagRes {
@@ -17,8 +18,8 @@ type (
 		Id  uint   `json:"id" form:"id" gorm:"primaryKey"`
 		Uid string `json:"uid" form:"uid"`
 		// 字段
-		TagName string `json:"tag_name" form:"tag_name"`
-		Type    string `json:"type" form:"type" gorm:"type:enum('image', 'article')"`
+		TagName string         `json:"tag_name" form:"tag_name"`
+		Type    string         `json:"type" form:"type" gorm:"type:enum('image', 'article')"`
 		Article []*ArticleInfo `json:"articles" gorm:"column:Article;many2many:article_tag"`
 	}
 	ArticleInfo {
