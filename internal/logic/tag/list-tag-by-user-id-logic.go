@@ -1,36 +1,33 @@
 package tag
 
 import (
-	"blog_backend/internal/svc"
-	"blog_backend/internal/types"
 	"blog_backend/models"
 	"context"
-	"encoding/json"
 	"github.com/jinzhu/copier"
 	"gorm.io/gorm"
+
+	"blog_backend/internal/svc"
+	"blog_backend/internal/types"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
-type ListTagLogic struct {
+type ListTagByUserIdLogic struct {
 	logx.Logger
 	ctx    context.Context
 	svcCtx *svc.ServiceContext
 }
 
-func NewListTagLogic(ctx context.Context, svcCtx *svc.ServiceContext) *ListTagLogic {
-	return &ListTagLogic{
+func NewListTagByUserIdLogic(ctx context.Context, svcCtx *svc.ServiceContext) *ListTagByUserIdLogic {
+	return &ListTagByUserIdLogic{
 		Logger: logx.WithContext(ctx),
 		ctx:    ctx,
 		svcCtx: svcCtx,
 	}
 }
 
-func (l *ListTagLogic) ListTag(req *types.ListTagReq) (resp *types.ListTagRes, err error) {
-	userid, err := l.ctx.Value("Id").(json.Number).Int64()
-	if err != nil {
-		return nil, err
-	}
+func (l *ListTagByUserIdLogic) ListTagByUserId(req *types.ListTagUserIdReq) (resp *types.ListTagUserIdRes, err error) {
+
 	var tags []types.TagInfo
 	var t []models.Tag
 	if err = l.svcCtx.DB.
@@ -40,7 +37,7 @@ func (l *ListTagLogic) ListTag(req *types.ListTagReq) (resp *types.ListTagRes, e
 			return db.Select("id")
 		}).
 		Select("id", "uid", "tag_name", "type", "user_id").
-		Where("user_id = ? and type = ?", userid, req.Type).
+		Where("user_id = ? and type = ?", req.UserId, req.Type).
 		Find(&t).
 		Error; err != nil {
 		return nil, err
@@ -48,11 +45,11 @@ func (l *ListTagLogic) ListTag(req *types.ListTagReq) (resp *types.ListTagRes, e
 
 	_ = copier.Copy(&tags, &t)
 
-	return &types.ListTagRes{
+	return &types.ListTagUserIdRes{
 		Base: types.Base{
 			Code: 1,
 			Msg:  "ok",
 		},
-		Data: types.ListTagResData{Tags: tags},
+		Data: types.ListTagUserIdResData{Tags: tags},
 	}, nil
 }

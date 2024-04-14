@@ -30,10 +30,11 @@ func (l *FileInfoPublicLogic) FileInfoPublic(req *types.FileListPublicReq) (resp
 	var infos []types.FileListPublicResDataInfo
 	var count int64
 	if err = l.svcCtx.DB.
+		Debug().
 		Order("Updated desc").
 		Model(&models.Upload{}).
-		Select("id", "file_name", "file_path", "w", "h").
-		Where("user_id = ? and type = ?", req.Id, "images").
+		Select("id", "file_name", "file_path", "w", "h", "status").
+		Where("user_id=? and type=? and status=?", req.Id, "images", true).
 		Offset((req.Page - 1) * req.Limit).
 		Limit(req.Limit).
 		Find(&upload).

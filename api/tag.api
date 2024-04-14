@@ -4,7 +4,6 @@ import "./base.api"
 
 type (
 	ListTagReq {
-		UserId uint `form:"user_id,optional"`
 		Type string `form:"type,options=[image,article]"`
 	}
 	ListTagRes {
@@ -55,6 +54,28 @@ type (
 		Base
 	}
 )
+
+type (
+	ListTagUserIdReq {
+		UserId uint `form:"user_id,optional"`
+		Type string `form:"type,options=[image,article]"`
+	}
+	ListTagUserIdRes {
+		Base
+		Data ListTagUserIdResData `json:"data"`
+	}
+	ListTagUserIdResData {
+		Tags []TagInfo `json:"tags"`
+	}
+)
+
+@server (
+	group: tag
+)
+service blog_backend {
+	@handler ListTagByUserId
+	get /tag/list/userid (ListTagUserIdReq) returns (ListTagUserIdRes)
+}
 
 @server (
 	jwt:   Auth

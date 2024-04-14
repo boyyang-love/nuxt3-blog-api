@@ -77,7 +77,7 @@ func (l *InfoUserLogic) UserCount(userId uint) (count CountRes, err error) {
 	if err = l.svcCtx.DB.
 		Model(&models.Upload{}).
 		Select("id").
-		Where("user_id = ? and type = ?", userId, "images").
+		Where("user_id = ? and type = ? and status = ?", userId, "images", true).
 		Count(&count.WallpaperCount).
 		Error; err != nil {
 		return count, err

@@ -6,8 +6,8 @@ type ArticleInfo struct {
 }
 
 type Base struct {
-	Code int    `json:"code" default:1`
-	Msg  string `json:"msg" default:"ok"`
+	Code int    `json:"code"`
+	Msg  string `json:"msg"`
 }
 
 type BlogComments struct {
@@ -221,6 +221,7 @@ type FileInfo struct {
 	Id       uint   `json:"id"`
 	FileName string `json:"file_name"`
 	FilePath string `json:"file_path"`
+	Status   bool   `json:"status"`
 	W        int    `json:"w"`
 	H        int    `json:"h"`
 }
@@ -245,6 +246,7 @@ type FileListPublicResDataInfo struct {
 	Id       uint   `json:"id"`
 	FileName string `json:"file_name"`
 	FilePath string `json:"file_path"`
+	Status   bool   `json:"status"`
 	W        int    `json:"w"`
 	H        int    `json:"h"`
 }
@@ -263,6 +265,15 @@ type FileListRes struct {
 type FileListResdata struct {
 	Count int64      `json:"count"`
 	Infos []FileInfo `json:"infos"`
+}
+
+type FileStatusReq struct {
+	Id     uint `json:"id"`
+	Status bool `json:"status"`
+}
+
+type FileStatusRes struct {
+	Base
 }
 
 type FileUploadReq struct {
@@ -336,8 +347,7 @@ type ListBlogResData struct {
 }
 
 type ListTagReq struct {
-	UserId uint   `form:"user_id,optional"`
-	Type   string `form:"type,options=[image,article]"`
+	Type string `form:"type,options=[image,article]"`
 }
 
 type ListTagRes struct {
@@ -346,6 +356,20 @@ type ListTagRes struct {
 }
 
 type ListTagResData struct {
+	Tags []TagInfo `json:"tags"`
+}
+
+type ListTagUserIdReq struct {
+	UserId uint   `form:"user_id,optional"`
+	Type   string `form:"type,options=[image,article]"`
+}
+
+type ListTagUserIdRes struct {
+	Base
+	Data ListTagUserIdResData `json:"data"`
+}
+
+type ListTagUserIdResData struct {
 	Tags []TagInfo `json:"tags"`
 }
 

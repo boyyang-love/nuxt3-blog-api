@@ -124,6 +124,16 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 	server.AddRoutes(
 		[]rest.Route{
 			{
+				Method:  http.MethodGet,
+				Path:    "/tag/list/userid",
+				Handler: tag.ListTagByUserIdHandler(serverCtx),
+			},
+		},
+	)
+
+	server.AddRoutes(
+		[]rest.Route{
+			{
 				Method:  http.MethodPost,
 				Path:    "/tag/create",
 				Handler: tag.CreateTagHandler(serverCtx),
@@ -168,6 +178,11 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Method:  http.MethodGet,
 				Path:    "/file/list",
 				Handler: upload.FileListHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPost,
+				Path:    "/file/status",
+				Handler: upload.FileStatusHandler(serverCtx),
 			},
 			{
 				Method:  http.MethodPost,
