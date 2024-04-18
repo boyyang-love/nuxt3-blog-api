@@ -39,6 +39,7 @@ func AutoMigrate(db *gorm.DB) (err error) {
 	//&models.BaseComment{},
 	//&models.User{},
 	//&models.Article{},
+	//&models.Categories{},
 	//&models.Tag{},
 	//&models.Image{},
 	//&models.Upload{},

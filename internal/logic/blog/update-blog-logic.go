@@ -40,14 +40,15 @@ func (l *UpdateBlogLogic) UpdateBlog(req *types.UpdateBlogReq) (resp *types.Upda
 
 	if err = l.svcCtx.DB.
 		Model(&models.Article{}).
-		Select("title", "des", "cover", "content", "keywords").
+		Select("title", "des", "cover", "content", "keywords", "categories_id").
 		Where("id= ? and user_id = ?", req.Id, userId).
 		Updates(&models.Article{
-			Title:    req.Title,
-			Des:      req.Des,
-			Cover:    req.Cover,
-			Content:  req.Content,
-			Keywords: req.Keywords,
+			Title:        req.Title,
+			Des:          req.Des,
+			Cover:        req.Cover,
+			Content:      req.Content,
+			Keywords:     req.Keywords,
+			CategoriesId: req.CategoryId,
 		}).
 		Error; err != nil {
 		return nil, err

@@ -1,6 +1,5 @@
 syntax = "v1"
 
-import "base.api"
 import "blog.api"
 import "user.api"
 import "member.api"
@@ -9,3 +8,4 @@ import "tag.api"
 import "comment.api"
 import "email.api"
 import "search.api"
+import "categories.api"

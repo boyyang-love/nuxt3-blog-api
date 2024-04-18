@@ -10,6 +10,7 @@ type (
 		Content  string `json:"content"`
 		Tags     []uint `json:"tags,optional"`
 		Keywords string `json:"keywords"`
+		CategoryId uint `json:"category_id"`
 	}
 	CreateBlogRes {
 		Base
@@ -29,6 +30,7 @@ type (
 		Content  string `json:"content"`
 		Keywords string `json:"keywords"`
 		Tags     []uint `json:"tags,optional"`
+		CategoryId uint `json:"category_id"`
 	}
 	UpdateBlogRes {
 		Base
@@ -73,6 +75,7 @@ type (
 		User    BlogUserInfo   `json:"user" gorm:"column:User;reference:UserId"`
 		Tag     []*BlogTags    `json:"tag" gorm:"column:Tag;many2many:article_tag"`
 		Comment []BlogComments `json:"comment" gorm:"column:Comment"`
+	    Categories BlogCategoryInfo  `json:"categories"`
 	}
 	BlogUserInfo {
 		Id       uint   `json:"id"`
@@ -102,6 +105,12 @@ type (
 		Uid      string `json:"uid"`
 		Username string `json:"username"`
 		Avatar   string `json:"avatar"`
+	}
+	BlogCategoryInfo {
+		Id uint `json:"id"`
+		Cover string `json:"cover"`
+		Name string `json:"name"`
+		Des string `json:"des"`
 	}
 	BlogSearchByIdReq {
 		Id uint `form:"id"`

@@ -47,6 +47,7 @@ func (l *ListBlogLogic) ListBlog(req *types.ListBlogReq) (resp *types.ListBlogRe
 		Preload("Tag").
 		Preload("Comment").
 		Preload("Comment.User").
+		Preload("Categories").
 		Limit(req.Limit).
 		Offset((req.Page - 1) * req.Limit).
 		Find(&articles).

@@ -1,0 +1,77 @@
+syntax = "v1"
+
+import "base.api"
+
+type (
+    CreateCategorieReq {
+        Cover string `json:"cover"`
+        Name string `json:"name"`
+        Des string `json:"des"`
+    }
+    CreateCategorieRes {
+        Base
+    }
+)
+
+type (
+    UpdateCategorieReq {
+        Id uint `json:"id"`
+        Cover string `json:"cover"`
+        Name string `json:"name"`
+        Des string `json:"des"`
+    }
+    UpdateCategorieRes {
+        Base
+    }
+)
+
+type (
+    DeleteCategorieReq {
+        Id uint `json:"id"`
+    }
+    DetleteCategorieRes {
+        Base
+    }
+)
+
+type (
+    InfoCategorieReq {
+        UserId uint `form:"user_id"`
+    }
+    InfoCategorieRes {
+        Base
+        Data InfoCategorieResData `json:"data"`
+    }
+    InfoCategorieResData {
+        Info []CategorieInfo `json:"info"`
+    }
+    CategorieInfo {
+        Id uint `json:"id"`
+        Cover string `json:"cover"`
+        Name string `json:"name"`
+        Des string `json:"des"`
+    }
+)
+
+@server (
+    group: categories
+)
+service blog_backend {
+    @handler InfoCategory
+    get /categories/info (InfoCategorieReq) returns (InfoCategorieRes)
+}
+
+@server(
+    jwt: Auth
+    group: categories
+)
+service blog_backend {
+    @handler CreateCategory
+    post /categories/create (CreateCategorieReq) returns (CreateCategorieRes)
+
+    @handler UpdateCategory
+    post /categories/update (UpdateCategorieReq) returns (UpdateCategorieRes)
+
+    @handler DeleteCategory
+    post /categories/delete (DeleteCategorieReq) returns (DetleteCategorieRes)
+}

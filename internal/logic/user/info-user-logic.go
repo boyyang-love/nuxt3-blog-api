@@ -47,6 +47,7 @@ func (l *InfoUserLogic) InfoUser(req *types.InfoUserReq) (resp *types.InfoUserRe
 		info.BlogCount = counts.BlogCount
 		info.WallpaperCount = counts.WallpaperCount
 		info.TagsCount = counts.TagsCount
+		info.CategoriesCount = counts.CategoriesCount
 	}
 
 	return &types.InfoUserRes{
@@ -59,9 +60,10 @@ func (l *InfoUserLogic) InfoUser(req *types.InfoUserReq) (resp *types.InfoUserRe
 }
 
 type CountRes struct {
-	BlogCount      int64
-	WallpaperCount int64
-	TagsCount      int64
+	BlogCount       int64
+	WallpaperCount  int64
+	TagsCount       int64
+	CategoriesCount int64
 }
 
 func (l *InfoUserLogic) UserCount(userId uint) (count CountRes, err error) {
@@ -88,6 +90,15 @@ func (l *InfoUserLogic) UserCount(userId uint) (count CountRes, err error) {
 		Select("id").
 		Where("user_id = ?", userId).
 		Count(&count.TagsCount).
+		Error; err != nil {
+		return count, err
+	}
+
+	if err = l.svcCtx.DB.
+		Model(&models.Categories{}).
+		Select("id").
+		Where("user_id = ?", userId).
+		Count(&count.CategoriesCount).
 		Error; err != nil {
 		return count, err
 	}

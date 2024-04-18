@@ -47,6 +47,7 @@ type (
 		BlogCount      int64  `json:"blog_count"`
 		WallpaperCount int64  `json:"wallpaper_count"`
 		TagsCount      int64  `json:"tags_count"`
+		CategoriesCount int64 `json:"categories_count"`
 	}
 )
 

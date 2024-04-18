@@ -10,6 +10,13 @@ type Base struct {
 	Msg  string `json:"msg"`
 }
 
+type BlogCategoryInfo struct {
+	Id    uint   `json:"id"`
+	Cover string `json:"cover"`
+	Name  string `json:"name"`
+	Des   string `json:"des"`
+}
+
 type BlogComments struct {
 	Id            uint                 `json:"id"`
 	Created       int                  `json:"created"`
@@ -102,6 +109,27 @@ type BlogUserInfo struct {
 	Motto    string `json:"motto"`
 }
 
+type CategorieInfo struct {
+	Id    uint   `json:"id"`
+	Cover string `json:"cover"`
+	Name  string `json:"name"`
+	Des   string `json:"des"`
+}
+
+type CategoryIdSearchReq struct {
+	Id     uint `form:"id"`
+	UserId uint `form:"user_id"`
+}
+
+type CategoryIdSearchRes struct {
+	Base
+	Data CategoryIdSearchResData `json:"data"`
+}
+
+type CategoryIdSearchResData struct {
+	Infos []SearchResDataInfo `json:"infos"`
+}
+
 type CommentCreateReq struct {
 	Content       string `json:"content"`
 	ArticleId     uint   `json:"article_id,optional"`
@@ -157,12 +185,13 @@ type CommentUserInfo struct {
 }
 
 type CreateBlogReq struct {
-	Title    string `json:"title"`
-	Des      string `json:"des"`
-	Cover    string `json:"cover"`
-	Content  string `json:"content"`
-	Tags     []uint `json:"tags,optional"`
-	Keywords string `json:"keywords"`
+	Title      string `json:"title"`
+	Des        string `json:"des"`
+	Cover      string `json:"cover"`
+	Content    string `json:"content"`
+	Tags       []uint `json:"tags,optional"`
+	Keywords   string `json:"keywords"`
+	CategoryId uint   `json:"category_id"`
 }
 
 type CreateBlogRes struct {
@@ -172,6 +201,16 @@ type CreateBlogRes struct {
 
 type CreateBlogResData struct {
 	Id uint `json:"id"`
+}
+
+type CreateCategorieReq struct {
+	Cover string `json:"cover"`
+	Name  string `json:"name"`
+	Des   string `json:"des"`
+}
+
+type CreateCategorieRes struct {
+	Base
 }
 
 type CreateTagReq struct {
@@ -191,11 +230,19 @@ type DeleteBlogRes struct {
 	Base
 }
 
+type DeleteCategorieReq struct {
+	Id uint `json:"id"`
+}
+
 type DeleteTagReq struct {
 	Id uint `json:"id"`
 }
 
 type DeleteTagRes struct {
+	Base
+}
+
+type DetleteCategorieRes struct {
 	Base
 }
 
@@ -210,7 +257,7 @@ type EmailSendCodeRes struct {
 type FileDeleteReq struct {
 	Id       uint   `json:"id"`
 	FilePath string `json:"file_path"`
-	Type     string `json:"type,options=[blog,images,avatar,bg]"`
+	Type     string `json:"type,options=[blog,images,avatar,bg,categories]"`
 }
 
 type FileDeleteRes struct {
@@ -254,7 +301,7 @@ type FileListPublicResDataInfo struct {
 type FileListReq struct {
 	Page  int    `form:"page,optional"`
 	Limit int    `form:"limit,optional"`
-	Type  string `form:"type,options=[blog,images,avatar,bg]"`
+	Type  string `form:"type,options=[blog,images,avatar,bg,categories]"`
 }
 
 type FileListRes struct {
@@ -294,6 +341,19 @@ type FileUploadResdata struct {
 	Path     string `json:"path"`
 }
 
+type InfoCategorieReq struct {
+	UserId uint `form:"user_id"`
+}
+
+type InfoCategorieRes struct {
+	Base
+	Data InfoCategorieResData `json:"data"`
+}
+
+type InfoCategorieResData struct {
+	Info []CategorieInfo `json:"info"`
+}
+
 type InfoUserReq struct {
 	Id uint `form:"id"`
 }
@@ -304,30 +364,32 @@ type InfoUserRes struct {
 }
 
 type InfoUserResData struct {
-	Id             uint   `json:"id"`
-	Username       string `json:"username"`
-	Motto          string `json:"motto"`
-	Avatar         string `json:"avatar"`
-	Cover          string `json:"cover"`
-	BlogCount      int64  `json:"blog_count"`
-	WallpaperCount int64  `json:"wallpaper_count"`
-	TagsCount      int64  `json:"tags_count"`
+	Id              uint   `json:"id"`
+	Username        string `json:"username"`
+	Motto           string `json:"motto"`
+	Avatar          string `json:"avatar"`
+	Cover           string `json:"cover"`
+	BlogCount       int64  `json:"blog_count"`
+	WallpaperCount  int64  `json:"wallpaper_count"`
+	TagsCount       int64  `json:"tags_count"`
+	CategoriesCount int64  `json:"categories_count"`
 }
 
 type ListBlogItem struct {
-	Id       uint           `json:"id"`
-	Uid      string         `json:"uid"`
-	Created  int64          `json:"created"`
-	Updated  int64          `json:"updated"`
-	Title    string         `json:"title"`
-	Des      string         `json:"des"`
-	Cover    string         `json:"cover"`
-	Content  string         `json:"content"`
-	UserId   uint           `json:"user_id"`
-	Keywords string         `json:"keywords"`
-	User     BlogUserInfo   `json:"user" gorm:"column:User;reference:UserId"`
-	Tag      []*BlogTags    `json:"tag" gorm:"column:Tag;many2many:article_tag"`
-	Comment  []BlogComments `json:"comment" gorm:"column:Comment"`
+	Id         uint             `json:"id"`
+	Uid        string           `json:"uid"`
+	Created    int64            `json:"created"`
+	Updated    int64            `json:"updated"`
+	Title      string           `json:"title"`
+	Des        string           `json:"des"`
+	Cover      string           `json:"cover"`
+	Content    string           `json:"content"`
+	UserId     uint             `json:"user_id"`
+	Keywords   string           `json:"keywords"`
+	User       BlogUserInfo     `json:"user" gorm:"column:User;reference:UserId"`
+	Tag        []*BlogTags      `json:"tag" gorm:"column:Tag;many2many:article_tag"`
+	Comment    []BlogComments   `json:"comment" gorm:"column:Comment"`
+	Categories BlogCategoryInfo `json:"categories"`
 }
 
 type ListBlogReq struct {
@@ -431,16 +493,28 @@ type TagInfo struct {
 }
 
 type UpdateBlogReq struct {
-	Id       uint   `json:"id"`
-	Title    string `json:"title"`
-	Des      string `json:"des"`
-	Cover    string `json:"cover"`
-	Content  string `json:"content"`
-	Keywords string `json:"keywords"`
-	Tags     []uint `json:"tags,optional"`
+	Id         uint   `json:"id"`
+	Title      string `json:"title"`
+	Des        string `json:"des"`
+	Cover      string `json:"cover"`
+	Content    string `json:"content"`
+	Keywords   string `json:"keywords"`
+	Tags       []uint `json:"tags,optional"`
+	CategoryId uint   `json:"category_id"`
 }
 
 type UpdateBlogRes struct {
+	Base
+}
+
+type UpdateCategorieReq struct {
+	Id    uint   `json:"id"`
+	Cover string `json:"cover"`
+	Name  string `json:"name"`
+	Des   string `json:"des"`
+}
+
+type UpdateCategorieRes struct {
 	Base
 }
 

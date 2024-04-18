@@ -6,6 +6,7 @@ import (
 	"time"
 
 	blog "blog_backend/internal/handler/blog"
+	categories "blog_backend/internal/handler/categories"
 	comment "blog_backend/internal/handler/comment"
 	email "blog_backend/internal/handler/email"
 	member "blog_backend/internal/handler/member"
@@ -68,6 +69,37 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 	server.AddRoutes(
 		[]rest.Route{
 			{
+				Method:  http.MethodGet,
+				Path:    "/categories/info",
+				Handler: categories.InfoCategoryHandler(serverCtx),
+			},
+		},
+	)
+
+	server.AddRoutes(
+		[]rest.Route{
+			{
+				Method:  http.MethodPost,
+				Path:    "/categories/create",
+				Handler: categories.CreateCategoryHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPost,
+				Path:    "/categories/delete",
+				Handler: categories.DeleteCategoryHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPost,
+				Path:    "/categories/update",
+				Handler: categories.UpdateCategoryHandler(serverCtx),
+			},
+		},
+		rest.WithJwt(serverCtx.Config.Auth.AccessSecret),
+	)
+
+	server.AddRoutes(
+		[]rest.Route{
+			{
 				Method:  http.MethodPost,
 				Path:    "/comment/create",
 				Handler: comment.CreateCommentHandler(serverCtx),
@@ -117,6 +149,11 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Method:  http.MethodGet,
 				Path:    "/search",
 				Handler: search.KeywordsSearchHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodGet,
+				Path:    "/search/category/id",
+				Handler: search.CategoryIdSearchHandler(serverCtx),
 			},
 		},
 	)
