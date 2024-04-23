@@ -27,6 +27,7 @@ func NewCategoryIdSearchLogic(ctx context.Context, svcCtx *svc.ServiceContext) *
 func (l *CategoryIdSearchLogic) CategoryIdSearch(req *types.CategoryIdSearchReq) (resp *types.CategoryIdSearchRes, err error) {
 	var articles []types.SearchResDataInfo
 	if err = l.svcCtx.DB.
+		Order("created desc").
 		Model(&models.Article{}).
 		Select("id", "uid", "created", "title", "des", "cover").
 		Where("user_id = ? and categories_id = ?", req.UserId, req.Id).

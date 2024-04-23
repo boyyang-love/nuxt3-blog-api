@@ -101,7 +101,7 @@ service blog_backend {
 	jwt:      Auth
 	group:    upload
 	maxBytes: 20971520
-	timeout:  20s
+	timeout:  240s
 )
 service blog_backend {
 	@handler FileUpload

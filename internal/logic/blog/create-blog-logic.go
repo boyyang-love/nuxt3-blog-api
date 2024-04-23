@@ -36,13 +36,14 @@ func (l *CreateBlogLogic) CreateBlog(req *types.CreateBlogReq) (resp *types.Crea
 	}
 
 	article := models.Article{
-		Title:    req.Title,
-		Des:      req.Des,
-		Cover:    req.Cover,
-		Content:  req.Content,
-		UserId:   uint(userId),
-		Keywords: req.Keywords,
-		Tag:      tags,
+		Title:        req.Title,
+		Des:          req.Des,
+		Cover:        req.Cover,
+		Content:      req.Content,
+		UserId:       uint(userId),
+		Keywords:     req.Keywords,
+		Tag:          tags,
+		CategoriesId: req.CategoryId,
 	}
 
 	if err = l.svcCtx.DB.

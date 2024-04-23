@@ -191,7 +191,7 @@ type CreateBlogReq struct {
 	Content    string `json:"content"`
 	Tags       []uint `json:"tags,optional"`
 	Keywords   string `json:"keywords"`
-	CategoryId uint   `json:"category_id"`
+	CategoryId uint   `json:"category_id,optional"`
 }
 
 type CreateBlogRes struct {
@@ -500,7 +500,7 @@ type UpdateBlogReq struct {
 	Content    string `json:"content"`
 	Keywords   string `json:"keywords"`
 	Tags       []uint `json:"tags,optional"`
-	CategoryId uint   `json:"category_id"`
+	CategoryId uint   `json:"category_id,optional"`
 }
 
 type UpdateBlogRes struct {
