@@ -10,13 +10,14 @@ import (
 
 func ConMySQL(mySQLConf config.MySQLConf) (db *gorm.DB, err error) {
 
-	args := fmt.Sprintf("%s:%s@tcp(%s:%d)/%s?charset=%s&parseTime=true&writeTimeout=%s",
+	args := fmt.Sprintf("%s:%s@tcp(%s:%d)/%s?charset=%s&collation=%s&parseTime=true&writeTimeout=%s",
 		mySQLConf.Username,
 		mySQLConf.Password,
 		mySQLConf.Host,
 		mySQLConf.Port,
 		mySQLConf.Database,
 		mySQLConf.Charset,
+		mySQLConf.Collation,
 		mySQLConf.Timeout,
 	)
 

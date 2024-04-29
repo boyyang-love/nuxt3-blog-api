@@ -3,13 +3,14 @@ package config
 import "github.com/zeromicro/go-zero/rest"
 
 type MySQLConf struct {
-	Host     string
-	Port     int
-	Database string
-	Username string
-	Password string
-	Charset  string
-	Timeout  string
+	Host      string
+	Port      int
+	Database  string
+	Username  string
+	Password  string
+	Charset   string
+	Collation string
+	Timeout   string
 }
 
 type Auth struct {
