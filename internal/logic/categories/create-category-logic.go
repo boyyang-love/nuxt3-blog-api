@@ -44,8 +44,7 @@ func (l *CreateCategoryLogic) CreateCategory(req *types.CreateCategorieReq) (res
 
 	if err = l.svcCtx.DB.
 		Model(&models.Categories{}).
-		Select("name", "cover", "des", "user_id").
-		Where("name = ? and user_id = ?", req.Name, uint(userid)).
+		Where(&models.Categories{Name: req.Name, UserId: uint(userid)}).
 		FirstOrCreate(&models.Categories{
 			Name:   req.Name,
 			Cover:  req.Cover,
