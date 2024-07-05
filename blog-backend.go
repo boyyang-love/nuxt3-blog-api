@@ -38,15 +38,6 @@ func main() {
 	ctx := svc.NewServiceContext(c)
 	handler.RegisterHandlers(server, ctx)
 
-	// 设置返回结果
-	//httpx.SetOkHandler(func(ctx context.Context, data interface{}) (r interface{}) {
-	//
-	//	return &respx.Body{
-	//		Msg:  "ok",
-	//		Code: 1,
-	//		Data: data,
-	//	}
-	//})
 	// 自定义错误
 	httpx.SetErrorHandler(func(err error) (int, interface{}) {
 		var e *errorx.CodeError

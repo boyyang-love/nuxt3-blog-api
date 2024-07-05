@@ -19,3 +19,8 @@ CloudBase:
   ClientUrl: https://7072-prod-2g5hif5wbec83baa-1301921121.cos.ap-shanghai.myqcloud.com
   ClientSecretId: AKIDHZq39Aa1NcjnmeO1b8cbXPDwcGpEg6Sh
   ClientSecretKey: RqAP1dDlDYo299mj3GJJCxaBhCiO3iKv
+MinioClient:
+  Endpoint: localhost:9000
+  AccessKey: 3GoBsHLqsbG7tnwjh0Ux
+  SecretKey: nsAslKfUzDcZWjtv1WlkEaOcH79fdc1GrtaFofLv
+  Secure: false

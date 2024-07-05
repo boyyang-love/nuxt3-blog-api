@@ -77,7 +77,9 @@ func (l *FileDeleteLogic) delDb(id uint) error {
 		Select("id").
 		Where("id = ?", id).
 		Delete(&models.Upload{
-			Id: id,
+			Base: models.Base{
+				Id: id,
+			},
 		}).
 		Error; err != nil {
 		return err

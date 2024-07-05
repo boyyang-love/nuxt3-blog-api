@@ -375,6 +375,67 @@ type InfoUserResData struct {
 	CategoriesCount int64  `json:"categories_count"`
 }
 
+type LinkCreateReq struct {
+	WebsiteName string `json:"website_name"`
+	WebsiteUrl  string `json:"website_url"`
+	WebsiteIcon string `json:"website_icon"`
+	Email       string `json:"email"`
+	Code        string `json:"code"`
+}
+
+type LinkCreateRes struct {
+	Base
+}
+
+type LinkDeleteReq struct {
+	Id int `json:"id"`
+}
+
+type LinkDeleteRes struct {
+	Base
+}
+
+type LinkListData struct {
+	WebsiteName string `json:"website_name"`
+	WebsiteUrl  string `json:"website_url"`
+	WebsiteIcon string `json:"website_icon"`
+	Email       string `json:"email"`
+	Status      int    `json:"status"`
+}
+
+type LinkListReq struct {
+	Page   int `json:"page,optional"`
+	Limit  int `json:"limit,optional"`
+	Status int `json:"status,optional"`
+}
+
+type LinkListRes struct {
+	Base
+	List  []LinkListData `json:"list"`
+	Total int            `json:"total"`
+}
+
+type LinkStatusUpdateReq struct {
+	Id     int `json:"id"`
+	Status int `json:"status"`
+}
+
+type LinkStatusUpdateRes struct {
+	Base
+}
+
+type LinkUpdateReq struct {
+	Id          int    `json:"id"`
+	WebsiteName string `json:"website_name"`
+	WebsiteUrl  string `json:"website_url"`
+	WebsiteIcon string `json:"website_icon"`
+	Email       string `json:"email"`
+}
+
+type LinkUpdateRes struct {
+	Base
+}
+
 type ListBlogItem struct {
 	Id         uint             `json:"id"`
 	Uid        string           `json:"uid"`

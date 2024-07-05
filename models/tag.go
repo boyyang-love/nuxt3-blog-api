@@ -4,18 +4,13 @@ import (
 	uuid "github.com/satori/go.uuid"
 	"gorm.io/gorm"
 	"strings"
-	"time"
 )
 
 type Tag struct {
-	Id        uint       `json:"id" form:"id" gorm:"primaryKey"`
-	Uid       string     `json:"uid" form:"uid"`
-	Created   int64      `gorm:"autoCreateTime:milli"`
-	Updated   int64      `gorm:"autoUpdateTime:milli"`
-	DeletedAt *time.Time `json:"deleted_at"`
+	Base
 	// 字段
 	TagName string `json:"tag_name" form:"tag_name"`
-	Type    string `json:"type" form:"type" gorm:"type:enum('image', 'article')"`
+	Type    string `json:"type" form:"type" gorm:"type:enum('image','article')"`
 	UserId  uint   `json:"user_id" form:"user_id"`
 	// 关系
 	User    User       `json:"user" form:"user" gorm:"reference:UserId"`

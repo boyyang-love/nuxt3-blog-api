@@ -57,8 +57,8 @@ type (
 
 type (
 	ListTagUserIdReq {
-		UserId uint `form:"user_id,optional"`
-		Type string `form:"type,options=[image,article]"`
+		UserId uint   `form:"user_id,optional"`
+		Type   string `form:"type,options=[image,article]"`
 	}
 	ListTagUserIdRes {
 		Base

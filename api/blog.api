@@ -4,13 +4,13 @@ import "./base.api"
 
 type (
 	CreateBlogReq {
-		Title    string `json:"title"`
-		Des      string `json:"des"`
-		Cover    string `json:"cover"`
-		Content  string `json:"content"`
-		Tags     []uint `json:"tags,optional"`
-		Keywords string `json:"keywords"`
-		CategoryId uint `json:"category_id,optional"`
+		Title      string `json:"title"`
+		Des        string `json:"des"`
+		Cover      string `json:"cover"`
+		Content    string `json:"content"`
+		Tags       []uint `json:"tags,optional"`
+		Keywords   string `json:"keywords"`
+		CategoryId uint   `json:"category_id,optional"`
 	}
 	CreateBlogRes {
 		Base
@@ -23,14 +23,14 @@ type (
 
 type (
 	UpdateBlogReq {
-		Id       uint   `json:"id"`
-		Title    string `json:"title"`
-		Des      string `json:"des"`
-		Cover    string `json:"cover"`
-		Content  string `json:"content"`
-		Keywords string `json:"keywords"`
-		Tags     []uint `json:"tags,optional"`
-		CategoryId uint `json:"category_id,optional"`
+		Id         uint   `json:"id"`
+		Title      string `json:"title"`
+		Des        string `json:"des"`
+		Cover      string `json:"cover"`
+		Content    string `json:"content"`
+		Keywords   string `json:"keywords"`
+		Tags       []uint `json:"tags,optional"`
+		CategoryId uint   `json:"category_id,optional"`
 	}
 	UpdateBlogRes {
 		Base
@@ -72,10 +72,10 @@ type (
 		UserId   uint   `json:"user_id"`
 		Keywords string `json:"keywords"`
 		// 关系
-		User    BlogUserInfo   `json:"user" gorm:"column:User;reference:UserId"`
-		Tag     []*BlogTags    `json:"tag" gorm:"column:Tag;many2many:article_tag"`
-		Comment []BlogComments `json:"comment" gorm:"column:Comment"`
-	    Categories BlogCategoryInfo  `json:"categories"`
+		User       BlogUserInfo     `json:"user" gorm:"column:User;reference:UserId"`
+		Tag        []*BlogTags      `json:"tag" gorm:"column:Tag;many2many:article_tag"`
+		Comment    []BlogComments   `json:"comment" gorm:"column:Comment"`
+		Categories BlogCategoryInfo `json:"categories"`
 	}
 	BlogUserInfo {
 		Id       uint   `json:"id"`
@@ -107,10 +107,10 @@ type (
 		Avatar   string `json:"avatar"`
 	}
 	BlogCategoryInfo {
-		Id uint `json:"id"`
+		Id    uint   `json:"id"`
 		Cover string `json:"cover"`
-		Name string `json:"name"`
-		Des string `json:"des"`
+		Name  string `json:"name"`
+		Des   string `json:"des"`
 	}
 	BlogSearchByIdReq {
 		Id uint `form:"id"`

@@ -9,6 +9,7 @@ import (
 	categories "blog_backend/internal/handler/categories"
 	comment "blog_backend/internal/handler/comment"
 	email "blog_backend/internal/handler/email"
+	link "blog_backend/internal/handler/link"
 	member "blog_backend/internal/handler/member"
 	search "blog_backend/internal/handler/search"
 	tag "blog_backend/internal/handler/tag"
@@ -124,6 +125,36 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Method:  http.MethodPost,
 				Path:    "/email/code",
 				Handler: email.SendCodeHandler(serverCtx),
+			},
+		},
+	)
+
+	server.AddRoutes(
+		[]rest.Route{
+			{
+				Method:  http.MethodPost,
+				Path:    "/link/create",
+				Handler: link.CreateLinkHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPost,
+				Path:    "/link/delete",
+				Handler: link.DeleteLinkHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodGet,
+				Path:    "/link/list",
+				Handler: link.ListLinkHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPost,
+				Path:    "/link/status/update",
+				Handler: link.UpdateStatusLinkHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPost,
+				Path:    "/link/update",
+				Handler: link.UpdateLinkHandler(serverCtx),
 			},
 		},
 	)

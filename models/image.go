@@ -4,15 +4,10 @@ import (
 	uuid "github.com/satori/go.uuid"
 	"gorm.io/gorm"
 	"strings"
-	"time"
 )
 
 type Image struct {
-	Id        uint       `json:"id" form:"id" gorm:"primaryKey"`
-	Uid       string     `json:"uid" form:"uid"`
-	Created   int64      `gorm:"autoCreateTime:milli"`
-	Updated   int64      `gorm:"autoUpdateTime:milli"`
-	DeletedAt *time.Time `json:"deleted_at"`
+	Base
 	// 字段
 	Name   string `json:"title" form:"title"`
 	Path   string `json:"path" form:"path"`

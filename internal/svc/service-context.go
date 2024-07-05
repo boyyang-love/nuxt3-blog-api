@@ -5,15 +5,17 @@ import (
 	"blog_backend/internal/config"
 	"fmt"
 	"github.com/allegro/bigcache/v3"
+	"github.com/minio/minio-go"
 	"github.com/tencentyun/cos-go-sdk-v5"
 	"gorm.io/gorm"
 )
 
 type ServiceContext struct {
-	Config config.Config
-	DB     *gorm.DB
-	Client *cos.Client
-	Cache  *bigcache.BigCache
+	Config      config.Config
+	DB          *gorm.DB
+	Client      *cos.Client
+	Cache       *bigcache.BigCache
+	MinIoClient *minio.Client
 }
 
 func NewServiceContext(c config.Config) *ServiceContext {
@@ -32,10 +34,18 @@ func NewServiceContext(c config.Config) *ServiceContext {
 	cache := helper.NewCache()
 	cache.Init()
 
+	minIoClient, err := helper.Minio(c.MinioClient.Endpoint, c.MinioClient.AccessKey, c.MinioClient.SecretKey, c.MinioClient.Secure)
+	if err != nil {
+		fmt.Println("minio连接失败", err.Error())
+	} else {
+		fmt.Println("minio连接成功")
+	}
+
 	return &ServiceContext{
-		Config: c,
-		DB:     db,
-		Client: client,
-		Cache:  cache.BigCache,
+		Config:      c,
+		DB:          db,
+		Client:      client,
+		Cache:       cache.BigCache,
+		MinIoClient: minIoClient,
 	}
 }

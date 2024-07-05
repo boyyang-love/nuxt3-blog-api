@@ -24,9 +24,16 @@ type CloudBase struct {
 	ClientSecretKey string
 }
 
+type MinioClient struct {
+	Endpoint  string
+	AccessKey string
+	SecretKey string
+	Secure    bool
+}
 type Config struct {
 	rest.RestConf
-	MySQLConf MySQLConf
-	Auth      Auth
-	CloudBase CloudBase
+	MySQLConf   MySQLConf
+	Auth        Auth
+	CloudBase   CloudBase
+	MinioClient MinioClient
 }
