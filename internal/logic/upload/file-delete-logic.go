@@ -90,14 +90,11 @@ func (l *FileDeleteLogic) delDb(id uint) error {
 
 // 删除对象存储数据
 func (l *FileDeleteLogic) delCloudDb(path string) error {
-	if _, err := l.svcCtx.Client.
-		Object.
-		Delete(
-			context.Background(),
-			path,
-		); err != nil {
+	if err := l.svcCtx.MinIoClient.RemoveObject(
+		"boyyang",
+		path,
+	); err != nil {
 		return err
 	}
-
 	return nil
 }

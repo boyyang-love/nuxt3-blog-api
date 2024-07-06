@@ -30,9 +30,9 @@ func (l *DeleteBlogLogic) DeleteBlog(req *types.DeleteBlogReq) (resp *types.Dele
 		return nil, err
 	}
 	if err = l.svcCtx.DB.
-		Model(&models.BaseArticle{}).
+		Model(&models.Article{}).
 		Select(clause.Associations).
-		Delete(&models.BaseArticle{
+		Delete(&models.Article{
 			Base: models.Base{
 				Id: req.Id,
 			},

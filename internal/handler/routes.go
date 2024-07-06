@@ -11,6 +11,7 @@ import (
 	email "blog_backend/internal/handler/email"
 	link "blog_backend/internal/handler/link"
 	member "blog_backend/internal/handler/member"
+	minio "blog_backend/internal/handler/minio"
 	search "blog_backend/internal/handler/search"
 	tag "blog_backend/internal/handler/tag"
 	upload "blog_backend/internal/handler/upload"
@@ -178,6 +179,22 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 		[]rest.Route{
 			{
 				Method:  http.MethodGet,
+				Path:    "/bucket/create",
+				Handler: minio.CreateBucketHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodGet,
+				Path:    "/bucket/delete",
+				Handler: minio.DeleteBucketHandler(serverCtx),
+			},
+		},
+		rest.WithJwt(serverCtx.Config.Auth.AccessSecret),
+	)
+
+	server.AddRoutes(
+		[]rest.Route{
+			{
+				Method:  http.MethodGet,
 				Path:    "/search",
 				Handler: search.KeywordsSearchHandler(serverCtx),
 			},
@@ -256,6 +273,11 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Method:  http.MethodPost,
 				Path:    "/file/upload",
 				Handler: upload.FileUploadHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPost,
+				Path:    "/minio/file/upload",
+				Handler: upload.FileUploadMinioHandler(serverCtx),
 			},
 		},
 		rest.WithJwt(serverCtx.Config.Auth.AccessSecret),

@@ -27,9 +27,9 @@ func NewDeleteCommentLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Del
 func (l *DeleteCommentLogic) DeleteComment(req *types.CommentDeleteReq) (resp *types.CommentDeleteRes, err error) {
 
 	if err = l.svcCtx.DB.
-		Model(&models.BaseComment{}).
+		Model(&models.Comment{}).
 		Where("id = ?", req.Id).
-		Delete(&models.BaseComment{}).
+		Delete(&models.Comment{}).
 		Error; err != nil {
 		return nil, err
 	}

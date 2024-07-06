@@ -6,7 +6,7 @@ import (
 	"strings"
 )
 
-type BaseComment struct {
+type Comment struct {
 	Base
 	// 字段
 	Content       string `json:"content" form:"content"`
@@ -15,22 +15,14 @@ type BaseComment struct {
 	WebsiteUserId uint   `json:"website_user_id" form:"website_user_id"`
 	UserId        uint   `json:"user_id" form:"user_id"`
 	Type          string `json:"type" form:"type" gorm:"type:enum('article','comment','website')"`
-}
-
-type Comment struct {
-	BaseComment
-	User User `json:"user" form:"user" gorm:"reference:UserId"`
-}
-
-func (c *BaseComment) TableName() string {
-	return "comment"
+	User          User   `json:"user" form:"user" gorm:"reference:UserId"`
 }
 
 func (c *Comment) TableName() string {
 	return "comment"
 }
 
-func (c *BaseComment) BeforeCreate(*gorm.DB) error {
+func (c *Comment) BeforeCreate(*gorm.DB) error {
 	uid := uuid.NewV1()
 	c.Uid = strings.Replace(uid.String(), "-", "", -1)
 	return nil

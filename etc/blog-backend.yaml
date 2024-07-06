@@ -20,7 +20,7 @@ CloudBase:
   ClientSecretId: AKIDHZq39Aa1NcjnmeO1b8cbXPDwcGpEg6Sh
   ClientSecretKey: RqAP1dDlDYo299mj3GJJCxaBhCiO3iKv
 MinioClient:
-  Endpoint: localhost:9000
-  AccessKey: 3GoBsHLqsbG7tnwjh0Ux
-  SecretKey: nsAslKfUzDcZWjtv1WlkEaOcH79fdc1GrtaFofLv
+  Endpoint: 47.109.86.251:9000
+  AccessKey: nORa7vVFmamIow77uug4
+  SecretKey: LZRLI5glyKZaoJsUQH87E74PxJENTazFSAIOuiCI
   Secure: false

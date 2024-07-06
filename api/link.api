@@ -1,5 +1,5 @@
 syntax = "v1"
-import "base.api"
+import "./base.api"
 type (
     LinkCreateReq {
         WebsiteName string `json:"website_name"`

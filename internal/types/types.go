@@ -203,6 +203,14 @@ type CreateBlogResData struct {
 	Id uint `json:"id"`
 }
 
+type CreateBucketReq struct {
+	Name string `form:"name"`
+}
+
+type CreateBucketRes struct {
+	Base
+}
+
 type CreateCategorieReq struct {
 	Cover string `json:"cover"`
 	Name  string `json:"name"`
@@ -227,6 +235,14 @@ type DeleteBlogReq struct {
 }
 
 type DeleteBlogRes struct {
+	Base
+}
+
+type DeleteBucketReq struct {
+	Name string `form:"name"`
+}
+
+type DeleteBucketRes struct {
 	Base
 }
 

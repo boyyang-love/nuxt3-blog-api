@@ -30,7 +30,7 @@ func (l *CreateCommentLogic) CreateComment(req *types.CommentCreateReq) (resp *t
 	if err != nil {
 		return nil, err
 	}
-	comment := models.BaseComment{
+	comment := models.Comment{
 		Content:       req.Content,
 		ArticleId:     req.ArticleId,
 		CommentId:     req.CommentId,
@@ -39,7 +39,7 @@ func (l *CreateCommentLogic) CreateComment(req *types.CommentCreateReq) (resp *t
 		UserId:        uint(userid),
 	}
 	if err = l.svcCtx.DB.
-		Model(&models.BaseComment{}).
+		Model(&models.Comment{}).
 		Create(&comment).
 		Error; err != nil {
 		return nil, err
