@@ -16,20 +16,17 @@ import (
 func FileUploadMinioHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		var req types.FileUploadReq
-		file, fileHeader, err := r.FormFile("file")
+		_, fileHeader, err := r.FormFile("file")
 		if err != nil {
 			httpx.ErrorCtx(r.Context(), w, err)
 		}
 
-		fileHash, err := helper.MakeFileHash(file, fileHeader)
+		compressedImage, err := helper.ResizeImage(fileHeader)
 		if err != nil {
 			httpx.ErrorCtx(r.Context(), w, err)
 		}
 
-		x, y, err := helper.ImageWH(fileHeader)
-		if err != nil {
-			httpx.ErrorCtx(r.Context(), w, err)
-		}
+		x, y, fileHash, fileSize := compressedImage.Width, compressedImage.Height, compressedImage.Hash, compressedImage.Size
 
 		// 用户上传名称 以及路径（blog,image）
 		fileCustomName := r.PostFormValue("file_name")
@@ -48,7 +45,8 @@ func FileUploadMinioHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 				&helper.MinioFileUploadParams{
 					Ctx:         r.Context(),
 					MinioClient: svcCtx.MinIoClient,
-					FileHeader:  fileHeader,
+					Buf:         compressedImage.Buf,
+					Filename:    fileHeader.Filename,
 					Path:        fmt.Sprintf("BOYYANG/%d/%s", userid, fileCustomDir),
 				},
 			)
@@ -61,7 +59,7 @@ func FileUploadMinioHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 			uploadData := models.Upload{
 				Hash:     fileHash,
 				FileName: fileCustomName,
-				FileSize: fileHeader.Size,
+				FileSize: fileSize,
 				FileType: path.Ext(fileHeader.Filename),
 				FilePath: fileCloudPath,
 				UserId:   uint(userid),
