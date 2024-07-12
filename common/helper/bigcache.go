@@ -14,8 +14,9 @@ func NewCache() *Cache {
 	return &Cache{}
 }
 
-func (c *Cache) Init() {
-	c.BigCache, _ = bigcache.New(context.Background(), bigcache.DefaultConfig(5*time.Minute))
+func (c *Cache) Init() (err error) {
+	c.BigCache, err = bigcache.New(context.Background(), bigcache.DefaultConfig(5*time.Minute))
+	return err
 }
 
 func (c *Cache) Get(key string) (interface{}, bool) {

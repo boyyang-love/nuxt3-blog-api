@@ -46,10 +46,10 @@ func FileUploadMinioHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 		if err != nil {
 			fileCloudPath, err := helper.MinioFileUpload(
 				&helper.MinioFileUploadParams{
-					MinioClient:   svcCtx.MinIoClient,
-					FileHeader:    fileHeader,
-					Path:          fmt.Sprintf("BOYYANG/%d/%s", userid, fileCustomDir),
-					ContentLength: r.ContentLength,
+					Ctx:         r.Context(),
+					MinioClient: svcCtx.MinIoClient,
+					FileHeader:  fileHeader,
+					Path:        fmt.Sprintf("BOYYANG/%d/%s", userid, fileCustomDir),
 				},
 			)
 			if err != nil {

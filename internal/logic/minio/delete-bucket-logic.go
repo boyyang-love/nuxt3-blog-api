@@ -24,7 +24,17 @@ func NewDeleteBucketLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Dele
 }
 
 func (l *DeleteBucketLogic) DeleteBucket(req *types.DeleteBucketReq) (resp *types.DeleteBucketRes, err error) {
-	// todo: add your logic here and delete this line
 
-	return
+	if err = l.svcCtx.
+		MinIoClient.
+		RemoveBucket(l.ctx, req.Name); err != nil {
+		return nil, err
+	}
+
+	return &types.DeleteBucketRes{
+		Base: types.Base{
+			Code: 1,
+			Msg:  "删除成功",
+		},
+	}, nil
 }

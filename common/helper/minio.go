@@ -1,13 +1,23 @@
 package helper
 
-import "github.com/minio/minio-go"
+import (
+	"github.com/minio/minio-go/v7"
+	"github.com/minio/minio-go/v7/pkg/credentials"
+)
 
 func Minio(endpoint string, accessKey string, secretAccessKey string, secure bool) (minioClient *minio.Client, err error) {
+	//minioClient, err = minio.New(
+	//	endpoint,
+	//	accessKey,
+	//	secretAccessKey,
+	//	secure,
+	//)
 	minioClient, err = minio.New(
 		endpoint,
-		accessKey,
-		secretAccessKey,
-		secure,
+		&minio.Options{
+			Creds:  credentials.NewStaticV4(accessKey, secretAccessKey, ""),
+			Secure: false,
+		},
 	)
 
 	if err != nil {

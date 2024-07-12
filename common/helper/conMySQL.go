@@ -2,7 +2,6 @@ package helper
 
 import (
 	"blog_backend/internal/config"
-	"blog_backend/models"
 	"fmt"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
@@ -38,14 +37,14 @@ func ConMySQL(mySQLConf config.MySQLConf) (db *gorm.DB, err error) {
 func AutoMigrate(db *gorm.DB) (err error) {
 
 	err = db.AutoMigrate(
-		&models.Comment{},
-		&models.User{},
-		&models.Article{},
-		&models.Categories{},
-		&models.Tag{},
-		&models.Image{},
-		&models.Upload{},
-		&models.Links{},
+		//&models.Comment{},
+		//&models.User{},
+		//&models.Article{},
+		//&models.Categories{},
+		//&models.Tag{},
+		//&models.Image{},
+		//&models.Upload{},
+		//&models.Links{},
 	)
 
 	return err

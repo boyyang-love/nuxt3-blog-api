@@ -1,16 +1,17 @@
 package helper
 
 import (
+	"context"
 	"fmt"
-	"github.com/minio/minio-go"
+	"github.com/minio/minio-go/v7"
 	"mime/multipart"
 )
 
 type MinioFileUploadParams struct {
-	MinioClient   *minio.Client
-	FileHeader    *multipart.FileHeader
-	Path          string
-	ContentLength int64
+	Ctx         context.Context
+	MinioClient *minio.Client
+	FileHeader  *multipart.FileHeader
+	Path        string
 }
 
 func MinioFileUpload(params *MinioFileUploadParams) (url string, err error) {
@@ -25,6 +26,7 @@ func MinioFileUpload(params *MinioFileUploadParams) (url string, err error) {
 	}(f)
 
 	_, err = params.MinioClient.PutObject(
+		params.Ctx,
 		"boyyang",
 		cloudPath,
 		f,

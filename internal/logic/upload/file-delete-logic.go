@@ -6,6 +6,7 @@ import (
 	"blog_backend/internal/types"
 	"blog_backend/models"
 	"context"
+	"github.com/minio/minio-go/v7"
 	"github.com/zeromicro/go-zero/core/logx"
 	"gorm.io/gorm"
 )
@@ -91,8 +92,10 @@ func (l *FileDeleteLogic) delDb(id uint) error {
 // 删除对象存储数据
 func (l *FileDeleteLogic) delCloudDb(path string) error {
 	if err := l.svcCtx.MinIoClient.RemoveObject(
+		l.ctx,
 		"boyyang",
 		path,
+		minio.RemoveObjectOptions{},
 	); err != nil {
 		return err
 	}
