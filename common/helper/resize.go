@@ -34,7 +34,7 @@ func ResizeImage(fileHeader *multipart.FileHeader) (compressionImage *Compressed
 		return nil, err
 	}
 	bounds := img.Bounds()
-	cimg := resize.Resize(uint(bounds.Dx()), uint(bounds.Dy()), img, resize.NearestNeighbor)
+	cimg := resize.Resize(uint(bounds.Dx()), uint(bounds.Dy()), img, resize.Lanczos3)
 	buffer := new(bytes.Buffer)
 	hash, err := MakeImageFileHash(cimg, imgType)
 	if err != nil {

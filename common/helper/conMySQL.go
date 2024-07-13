@@ -37,7 +37,7 @@ func ConMySQL(mySQLConf config.MySQLConf) (db *gorm.DB, err error) {
 
 func AutoMigrate(db *gorm.DB) (err error) {
 
-	err = db.AutoMigrate(
+	var tables = []interface{}{
 		&models.Comment{},
 		&models.User{},
 		&models.Article{},
@@ -46,7 +46,13 @@ func AutoMigrate(db *gorm.DB) (err error) {
 		&models.Image{},
 		&models.Upload{},
 		&models.Links{},
-	)
+	}
+
+	for _, table := range tables {
+		if !db.Migrator().HasTable(table) {
+			err = db.AutoMigrate(table)
+		}
+	}
 
 	return err
 }
