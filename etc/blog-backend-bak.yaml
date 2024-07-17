@@ -7,11 +7,11 @@ Auth:
   AccessSecret: boyyangBlog
   AccessExpire: 86_400_000
 MySQLConf:
-  Host: '47.109.86.251'
-  Port: 3306
-  Database: boyyangblog
-  Username: boyyang
-  Password: bZKk22bAJZrr454i
+  Host: 'sh-cynosdbmysql-grp-divyu7ha.sql.tencentcdb.com'
+  Port: 20126
+  Database: boyyangBlog
+  Username: root
+  Password: yzhD45683968yzhD
   Charset: utf8mb4
   Collation: utf8mb4_unicode_ci
   Timeout: 10s
