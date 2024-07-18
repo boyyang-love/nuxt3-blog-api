@@ -10,8 +10,6 @@ type User struct {
 	Base
 	// 字段
 	Username string `json:"username" form:"username"`
-	Avatar   string `json:"avatar" form:"avatar" gorm:"default:BOYYANG/default/default_avatar.jpg"`
-	Cover    string `json:"cover" form:"cover" gorm:"default:BOYYANG/default/default_cover.jpg"`
 	Account  string `json:"account" form:"account"`
 	Password string `json:"password" form:"password"`
 	Motto    string `json:"motto" form:"motto" gorm:"default:第一行没有你，第二行没有你，第三行没有也罢！-胡歌"`
@@ -22,6 +20,8 @@ type User struct {
 	Wechat   string `json:"wechat" form:"wechat"`
 	GitHub   string `json:"git_hub" form:"git_hub" gorm:"xxxx@gmail.com"`
 	Role     string `json:"role" form:"role" gorm:"default:user"`
+	Avatar   string `json:"avatar" form:"avatar" gorm:"default:BOYYANG/default/default_avatar.jpg"`
+	Cover    string `json:"cover" form:"cover" gorm:"default:BOYYANG/default/default_cover.jpg"`
 }
 
 func (u *User) TableName() string {

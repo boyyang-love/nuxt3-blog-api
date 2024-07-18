@@ -26,6 +26,7 @@ func ConMySQL(mySQLConf config.MySQLConf) (db *gorm.DB, err error) {
 		NamingStrategy: schema.NamingStrategy{
 			SingularTable: true,
 		},
+		DisableForeignKeyConstraintWhenMigrating: true,
 	})
 
 	if err = AutoMigrate(db); err != nil {

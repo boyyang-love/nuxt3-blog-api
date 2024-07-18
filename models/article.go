@@ -13,10 +13,11 @@ type Article struct {
 	Des          string `json:"des" form:"des"`
 	Cover        string `json:"cover" form:"cover"`
 	Content      string `json:"content" form:"content" gorm:"size:15000"`
-	Keywords     string `json:"keywords" form:"keywords"`
-	Star         int    `json:"star" form:"star"`
 	UserId       uint   `json:"user_id" form:"user_id"`
+	Star         int    `json:"star" form:"star"`
+	Keywords     string `json:"keywords" form:"keywords"`
 	CategoriesId uint   `json:"categories_id" form:"categories_id"`
+
 	// 关系
 	User       User       `json:"user" form:"user" gorm:"reference:UserId"`
 	Categories Categories `json:"categories" gorm:"reference:CategoriesId"`
