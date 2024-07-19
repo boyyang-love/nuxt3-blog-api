@@ -24,7 +24,7 @@ type (
     FileListReq {
         Page int `form:"page,optional"`
         Limit int `form:"limit,optional"`
-        Type string `form:"type,options=[blog,images,avatar,bg,categories]"`
+        Type string `form:"type,options=[blog,images,avatar,bg,categories,links]"`
     }
     FileListRes {
         Base

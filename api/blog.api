@@ -71,6 +71,7 @@ type (
 		Content  string `json:"content"`
 		UserId   uint   `json:"user_id"`
 		Keywords string `json:"keywords"`
+		Viewed    uint  `json:"viewed"`
 		// 关系
 		User       BlogUserInfo     `json:"user" gorm:"column:User;reference:UserId"`
 		Tag        []*BlogTags      `json:"tag" gorm:"column:Tag;many2many:article_tag"`

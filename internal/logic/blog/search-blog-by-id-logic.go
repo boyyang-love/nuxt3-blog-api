@@ -4,6 +4,7 @@ import (
 	"blog_backend/models"
 	"context"
 	"github.com/jinzhu/copier"
+	"gorm.io/gorm"
 
 	"blog_backend/internal/svc"
 	"blog_backend/internal/types"
@@ -26,6 +27,12 @@ func NewSearchBlogByIdLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Se
 }
 
 func (l *SearchBlogByIdLogic) SearchBlogById(req *types.BlogSearchByIdReq) (resp *types.BlogSearchByIdRes, err error) {
+
+	err = l.UpdateViewed(req.Id)
+	if err != nil {
+		return nil, err
+	}
+
 	var article models.Article
 	var list types.ListBlogItem
 	if err = l.svcCtx.DB.
@@ -50,4 +57,16 @@ func (l *SearchBlogByIdLogic) SearchBlogById(req *types.BlogSearchByIdReq) (resp
 		},
 		Data: types.BlogSearchByIdResData{Info: list},
 	}, nil
+}
+
+func (l *SearchBlogByIdLogic) UpdateViewed(id uint) error {
+	if err := l.svcCtx.DB.
+		Model(&models.Article{}).
+		Where("id = ?", id).
+		UpdateColumn("viewed", gorm.Expr("viewed + ?", 1)).
+		Error; err != nil {
+		return err
+	}
+
+	return nil
 }

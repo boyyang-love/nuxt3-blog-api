@@ -2,6 +2,7 @@ package email
 
 import (
 	"blog_backend/common/helper"
+	"blog_backend/models"
 	"context"
 	"fmt"
 	"math/rand"
@@ -29,13 +30,24 @@ func NewSendCodeLogic(ctx context.Context, svcCtx *svc.ServiceContext) *SendCode
 
 func (l *SendCodeLogic) SendCode(req *types.EmailSendCodeReq) (resp *types.EmailSendCodeRes, err error) {
 	code := fmt.Sprintf("%06v", rand.New(rand.NewSource(time.Now().UnixNano())).Int31n(1000000))
-
-	err = helper.SendEmail(req.Email, fmt.Sprintf("您的验证码是：%s", code))
+	info, err := l.UserInfo()
 	if err != nil {
 		return nil, err
 	}
 
-	err = l.svcCtx.Cache.Set(req.Email, []byte(code))
+	err = helper.SendEmail(
+		helper.SendEmailParams{
+			To:       req.Email,
+			Subject:  req.Subject,
+			Code:     code,
+			UserInfo: info,
+		},
+	)
+	if err != nil {
+		return nil, err
+	}
+
+	err = l.svcCtx.Cache.Set(fmt.Sprintf("%s-%s", req.Email, req.Type), []byte(code))
 	if err != nil {
 		return nil, err
 	}
@@ -46,4 +58,16 @@ func (l *SendCodeLogic) SendCode(req *types.EmailSendCodeReq) (resp *types.Email
 			Msg:  "验证码发送成功",
 		},
 	}, nil
+}
+
+func (l *SendCodeLogic) UserInfo() (info *models.User, err error) {
+	var userInfo models.User
+	if err := l.svcCtx.DB.
+		Model(&models.User{}).
+		Where("id = ?", 1).
+		First(&userInfo).Error; err != nil {
+		return nil, err
+	}
+
+	return &userInfo, nil
 }

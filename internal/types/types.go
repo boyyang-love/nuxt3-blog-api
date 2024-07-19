@@ -263,7 +263,9 @@ type DetleteCategorieRes struct {
 }
 
 type EmailSendCodeReq struct {
-	Email string `json:"email"`
+	Email   string `json:"email"`
+	Type    string `json:"type"` // blog link
+	Subject string `json:"subject"`
 }
 
 type EmailSendCodeRes struct {
@@ -317,7 +319,7 @@ type FileListPublicResDataInfo struct {
 type FileListReq struct {
 	Page  int    `form:"page,optional"`
 	Limit int    `form:"limit,optional"`
-	Type  string `form:"type,options=[blog,images,avatar,bg,categories]"`
+	Type  string `form:"type,options=[blog,images,avatar,bg,categories,links]"`
 }
 
 type FileListRes struct {
@@ -463,6 +465,7 @@ type ListBlogItem struct {
 	Content    string           `json:"content"`
 	UserId     uint             `json:"user_id"`
 	Keywords   string           `json:"keywords"`
+	Viewed     uint             `json:"viewed"`
 	User       BlogUserInfo     `json:"user" gorm:"column:User;reference:UserId"`
 	Tag        []*BlogTags      `json:"tag" gorm:"column:Tag;many2many:article_tag"`
 	Comment    []BlogComments   `json:"comment" gorm:"column:Comment"`

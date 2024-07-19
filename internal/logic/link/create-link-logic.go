@@ -71,7 +71,6 @@ func (l *CreateLinkLogic) getLinkByEmail(email string) (isExist bool, err error)
 	var links []models.Links
 	if err := l.svcCtx.
 		DB.
-		Debug().
 		Model(&models.Links{}).
 		Select("id").
 		Where("email = ?", email).
@@ -83,13 +82,12 @@ func (l *CreateLinkLogic) getLinkByEmail(email string) (isExist bool, err error)
 			return false, err
 		}
 	} else {
-		fmt.Println("1111")
 		return true, nil
 	}
 }
 
 func (l *CreateLinkLogic) codeVerify(email string, code string) (ok bool, err error) {
-	if cacheCode, err := l.svcCtx.Cache.Get(email); err != nil {
+	if cacheCode, err := l.svcCtx.Cache.Get(fmt.Sprintf("%s-link", email)); err != nil {
 		return false, errors.New("验证码过期")
 	} else {
 		if string(cacheCode) == code {

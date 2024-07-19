@@ -8,6 +8,7 @@ import (
 	"blog_backend/models"
 	"context"
 	"errors"
+	"fmt"
 	"gorm.io/gorm"
 
 	"github.com/zeromicro/go-zero/core/logx"
@@ -30,7 +31,7 @@ func NewSignUpLogic(ctx context.Context, svcCtx *svc.ServiceContext) *SignUpLogi
 func (l *SignUpLogic) SignUp(req *types.SignUpReq) (resp *types.SignUpRes, err error) {
 	var user models.User
 
-	code, err := l.svcCtx.Cache.Get(req.Email)
+	code, err := l.svcCtx.Cache.Get(fmt.Sprintf("%s-%s", req.Email, "blog"))
 	if err != nil {
 		return nil, errorx.NewDefaultError("验证码已过期")
 	}

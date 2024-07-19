@@ -17,7 +17,7 @@ type Article struct {
 	Star         int    `json:"star" form:"star"`
 	Keywords     string `json:"keywords" form:"keywords"`
 	CategoriesId uint   `json:"categories_id" form:"categories_id"`
-
+	Viewed       int64  `json:"viewed" form:"viewed" gorm:"default:0"`
 	// 关系
 	User       User       `json:"user" form:"user" gorm:"reference:UserId"`
 	Categories Categories `json:"categories" gorm:"reference:CategoriesId"`
