@@ -8,11 +8,12 @@ import (
 
 type Links struct {
 	Base
-	WebsiteName string `json:"website_name" gorm:"size:20"`
-	WebsiteUrl  string `json:"website_url" gorm:"size:100"`
-	WebsiteIcon string `json:"website_icon" gorm:"size:100"`
-	Email       string `json:"email" gorm:"size:20"`
-	Status      int    `json:"status" gorm:"type:enum('1','2','3','4')"` // 1 审核中 2 审核通过 3 审核失败 4 失联
+	WebsiteName string `json:"website_name"`
+	WebsiteUrl  string `json:"website_url"`
+	WebsiteIcon string `json:"website_icon"`
+	WebsiteDesc string `json:"website_desc"`
+	Email       string `json:"email"`
+	Status      int    `json:"status" gorm:"type:enum('1','2','3','4');default:1"` // 1 审核中 2 审核通过 3 审核失败 4 失联
 }
 
 func (l *Links) TableName() string {

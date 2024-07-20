@@ -53,6 +53,7 @@ func (l *CreateLinkLogic) CreateLink(req *types.LinkCreateReq) (resp *types.Link
 			WebsiteName: req.WebsiteName,
 			WebsiteUrl:  req.WebsiteUrl,
 			WebsiteIcon: req.WebsiteIcon,
+			WebsiteDesc: req.WebsiteDesc,
 			Email:       req.Email,
 		}).Error
 	if err != nil {
@@ -72,7 +73,7 @@ func (l *CreateLinkLogic) getLinkByEmail(email string) (isExist bool, err error)
 	if err := l.svcCtx.
 		DB.
 		Model(&models.Links{}).
-		Select("id").
+		Select("id", "email").
 		Where("email = ?", email).
 		First(&links).
 		Error; err != nil {

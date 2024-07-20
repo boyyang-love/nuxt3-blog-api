@@ -1,6 +1,7 @@
 package link
 
 import (
+	"blog_backend/models"
 	"context"
 
 	"blog_backend/internal/svc"
@@ -24,7 +25,24 @@ func NewListLinkLogic(ctx context.Context, svcCtx *svc.ServiceContext) *ListLink
 }
 
 func (l *ListLinkLogic) ListLink(req *types.LinkListReq) (resp *types.LinkListRes, err error) {
-	// todo: add your logic here and delete this line
+	var links []types.LinkListItem
+	var count int64
+	if err = l.svcCtx.DB.
+		Model(&models.Links{}).
+		Find(&links).
+		Count(&count).
+		Error; err != nil {
+		return nil, err
+	}
 
-	return
+	return &types.LinkListRes{
+		Base: types.Base{
+			Code: 1,
+			Msg:  "ok",
+		},
+		Data: types.LinkListData{
+			List: links,
+		},
+		Count: count,
+	}, nil
 }

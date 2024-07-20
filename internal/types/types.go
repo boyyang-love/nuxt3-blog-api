@@ -397,6 +397,7 @@ type LinkCreateReq struct {
 	WebsiteName string `json:"website_name"`
 	WebsiteUrl  string `json:"website_url"`
 	WebsiteIcon string `json:"website_icon"`
+	WebsiteDesc string `json:"website_desc"`
 	Email       string `json:"email"`
 	Code        string `json:"code"`
 }
@@ -414,9 +415,14 @@ type LinkDeleteRes struct {
 }
 
 type LinkListData struct {
+	List []LinkListItem `json:"list"`
+}
+
+type LinkListItem struct {
 	WebsiteName string `json:"website_name"`
 	WebsiteUrl  string `json:"website_url"`
 	WebsiteIcon string `json:"website_icon"`
+	WebsiteDesc string `json:"website_desc"`
 	Email       string `json:"email"`
 	Status      int    `json:"status"`
 }
@@ -429,8 +435,8 @@ type LinkListReq struct {
 
 type LinkListRes struct {
 	Base
-	List  []LinkListData `json:"list"`
-	Total int            `json:"total"`
+	Data  LinkListData `json:"data"`
+	Count int64        `json:"count"`
 }
 
 type LinkStatusUpdateReq struct {
