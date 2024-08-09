@@ -3,29 +3,29 @@ syntax = "v1"
 import "./base.api"
 
 type (
-    CreateBucketReq {
-        Name string `form:"name"`
-    }
-    CreateBucketRes {
-        Base
-    }
-    DeleteBucketReq {
-        Name string `form:"name"`
-    }
-    DeleteBucketRes {
-        Base
-    }
+	CreateBucketReq {
+		Name string `form:"name"`
+	}
+	CreateBucketRes {
+		Base
+	}
+	DeleteBucketReq {
+		Name string `form:"name"`
+	}
+	DeleteBucketRes {
+		Base
+	}
 )
 
-@server(
-    jwt: Auth
-    group: minio
+@server (
+	jwt:   Auth
+	group: minio
 )
 service blog_backend {
-    @handler CreateBucket
-    get /bucket/create (CreateBucketReq) returns (CreateBucketRes)
+	@handler CreateBucket
+	get /bucket/create (CreateBucketReq) returns (CreateBucketRes)
 
-    @handler DeleteBucket
-    get /bucket/delete (DeleteBucketReq) returns (DeleteBucketRes)
+	@handler DeleteBucket
+	get /bucket/delete (DeleteBucketReq) returns (DeleteBucketRes)
 }
 

@@ -3,21 +3,21 @@ syntax = "v1"
 import "./base.api"
 
 type (
-    EmailSendCodeReq {
-        Email string `json:"email"`
-        Type string `json:"type"` // blog link
-        Subject string `json:"subject"`
-    }
-    EmailSendCodeRes {
-        Base
-    }
+	EmailSendCodeReq {
+		Email   string `json:"email"`
+		Type    string `json:"type"` // blog link
+		Subject string `json:"subject"`
+	}
+	EmailSendCodeRes {
+		Base
+	}
 )
 
-@server(
-    group: email
+@server (
+	group: email
 )
 service blog_backend {
-    @handler SendCode
-    post /email/code (EmailSendCodeReq) returns (EmailSendCodeRes)
+	@handler SendCode
+	post /email/code (EmailSendCodeReq) returns (EmailSendCodeRes)
 }
 
