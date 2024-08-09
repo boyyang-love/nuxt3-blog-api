@@ -22,9 +22,9 @@ type (
 	LinkListRes {
 		Base
 		Data  LinkListData `json:"data"`
-		Count int64        `json:"count"`
 	}
 	LinkListData {
+		Count int64         `json:"count"`
 		List []LinkListItem `json:"list"`
 	}
 	LinkListItem {

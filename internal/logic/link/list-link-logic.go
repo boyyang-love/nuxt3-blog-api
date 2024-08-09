@@ -41,8 +41,8 @@ func (l *ListLinkLogic) ListLink(req *types.LinkListReq) (resp *types.LinkListRe
 			Msg:  "ok",
 		},
 		Data: types.LinkListData{
-			List: links,
+			Count: count,
+			List:  links,
 		},
-		Count: count,
 	}, nil
 }

@@ -415,7 +415,8 @@ type LinkDeleteRes struct {
 }
 
 type LinkListData struct {
-	List []LinkListItem `json:"list"`
+	Count int64          `json:"count"`
+	List  []LinkListItem `json:"list"`
 }
 
 type LinkListItem struct {
@@ -435,8 +436,7 @@ type LinkListReq struct {
 
 type LinkListRes struct {
 	Base
-	Data  LinkListData `json:"data"`
-	Count int64        `json:"count"`
+	Data LinkListData `json:"data"`
 }
 
 type LinkStatusUpdateReq struct {
