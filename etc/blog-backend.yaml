@@ -23,4 +23,4 @@ MinioClient:
   Endpoint: 47.109.86.251:9000
   AccessKey: nORa7vVFmamIow77uug4
   SecretKey: LZRLI5glyKZaoJsUQH87E74PxJENTazFSAIOuiCI
-  Secure: false
+  Secure: true
