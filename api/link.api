@@ -21,11 +21,11 @@ type (
 	}
 	LinkListRes {
 		Base
-		Data  LinkListData `json:"data"`
+		Data LinkListData `json:"data"`
 	}
 	LinkListData {
-		Count int64         `json:"count"`
-		List []LinkListItem `json:"list"`
+		Count int64          `json:"count"`
+		List  []LinkListItem `json:"list"`
 	}
 	LinkListItem {
 		WebsiteName string `json:"website_name"`

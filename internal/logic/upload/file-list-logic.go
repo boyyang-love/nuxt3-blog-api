@@ -35,6 +35,8 @@ func (l *FileListLogic) FileList(req *types.FileListReq) (resp *types.FileListRe
 	var fileInfo []models.Upload
 	var infos []types.FileInfo
 
+	print(userid, req.Type, req.Limit)
+
 	DB := l.svcCtx.DB.
 		Model(&models.Upload{}).
 		Order("Updated desc").

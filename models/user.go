@@ -14,9 +14,9 @@ type User struct {
 	Password string `json:"password" form:"password"`
 	Motto    string `json:"motto" form:"motto" gorm:"default:第一行没有你，第二行没有你，第三行没有也罢！-胡歌"`
 	Address  string `json:"address" form:"address"`
-	Tel      int    `json:"tel" form:"tel" gorm:"default:13100000000"`
+	Tel      string `json:"tel" form:"tel"`
 	Email    string `json:"email" form:"email"`
-	QQ       int    `json:"qq" form:"qq" gorm:"default:1000000000"`
+	QQ       string `json:"qq" form:"qq"`
 	Wechat   string `json:"wechat" form:"wechat"`
 	GitHub   string `json:"git_hub" form:"git_hub" gorm:"xxxx@gmail.com"`
 	Role     string `json:"role" form:"role" gorm:"default:user"`
