@@ -650,9 +650,9 @@ type UserInfo struct {
 	Account  string `json:"account"`
 	Motto    string `json:"motto"`
 	Address  string `json:"address"`
-	Tel      int    `json:"tel"`
+	Tel      string `json:"tel"`
 	Email    string `json:"email"`
-	QQ       int    `json:"qq"`
+	QQ       string `json:"qq"`
 	Wechat   string `json:"wechat"`
 	GitHub   string `json:"git_hub"`
 }
