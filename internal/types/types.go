@@ -275,9 +275,10 @@ type EmailSendCodeRes struct {
 }
 
 type FileDeleteReq struct {
-	Id       uint   `json:"id"`
-	FilePath string `json:"file_path"`
-	Type     string `json:"type,options=[blog,images,avatar,bg,categories]"`
+	Id             uint   `json:"id"`
+	FilePath       string `json:"file_path"`
+	OriginFilePath string `json:"origin_file_path"`
+	Type           string `json:"type,options=[blog,images,avatar,bg,categories]"`
 }
 
 type FileDeleteRes struct {
@@ -285,12 +286,13 @@ type FileDeleteRes struct {
 }
 
 type FileInfo struct {
-	Id       uint   `json:"id"`
-	FileName string `json:"file_name"`
-	FilePath string `json:"file_path"`
-	Status   bool   `json:"status"`
-	W        int    `json:"w"`
-	H        int    `json:"h"`
+	Id             uint   `json:"id"`
+	FileName       string `json:"file_name"`
+	OriginFilePath string `json:"origin_file_path"`
+	FilePath       string `json:"file_path"`
+	Status         bool   `json:"status"`
+	W              int    `json:"w"`
+	H              int    `json:"h"`
 }
 
 type FileListPublicReq struct {

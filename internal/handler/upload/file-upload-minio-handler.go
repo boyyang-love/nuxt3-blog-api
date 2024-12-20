@@ -10,7 +10,6 @@ import (
 	"fmt"
 	"github.com/zeromicro/go-zero/rest/httpx"
 	"net/http"
-	"path"
 )
 
 func FileUploadMinioHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
@@ -21,12 +20,12 @@ func FileUploadMinioHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 			httpx.ErrorCtx(r.Context(), w, err)
 		}
 
-		compressedImage, err := helper.ResizeImage(fileHeader)
+		compressedImage, err := helper.ImageToWebp(fileHeader, 50)
 		if err != nil {
 			httpx.ErrorCtx(r.Context(), w, err)
 		}
 
-		x, y, fileHash, fileSize := compressedImage.Width, compressedImage.Height, compressedImage.Hash, compressedImage.Size
+		x, y, fileHash, fileSize, imgType := compressedImage.Width, compressedImage.Height, compressedImage.Hash, compressedImage.Size, compressedImage.Type
 
 		// 用户上传名称 以及路径（blog,image）
 		fileCustomName := r.PostFormValue("file_name")
@@ -41,13 +40,15 @@ func FileUploadMinioHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 
 		info, err := IsExists(svcCtx.DB, fileHash, userid, fileCustomDir)
 		if err != nil {
-			fileCloudPath, err := helper.MinioFileUpload(
+			fileCloudPaths, err := helper.MinioFileUpload(
 				&helper.MinioFileUploadParams{
 					Ctx:         r.Context(),
 					MinioClient: svcCtx.MinIoClient,
 					Buf:         compressedImage.Buf,
+					OriBuf:      compressedImage.OriginBuf,
 					Filename:    fileHeader.Filename,
-					Path:        fmt.Sprintf("BOYYANG/%d/%s", userid, fileCustomDir),
+					Path:        fmt.Sprintf("BOYYANG/%d/%s/%s", userid, fileCustomDir, "compressed"),
+					OriPath:     fmt.Sprintf("BOYYANG/%d/%s/%s", userid, fileCustomDir, "origin"),
 				},
 			)
 			if err != nil {
@@ -57,15 +58,18 @@ func FileUploadMinioHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 
 			//插入数据库
 			uploadData := models.Upload{
-				Hash:     fileHash,
-				FileName: fileCustomName,
-				FileSize: fileSize,
-				FileType: path.Ext(fileHeader.Filename),
-				FilePath: fileCloudPath,
-				UserId:   uint(userid),
-				Type:     fileCustomDir,
-				W:        x,
-				H:        y,
+				Hash:           fileHash,
+				FileName:       helper.FileNameWithoutExt(fileCustomName),
+				FileSize:       fileSize,
+				OriginFileSize: compressedImage.OriginSize,
+				FileType:       imgType,
+				FilePath:       fileCloudPaths.CloudPath,
+				OriginFilePath: fileCloudPaths.OriCloudPath,
+				UserId:         uint(userid),
+				OriginType:     compressedImage.OriginType,
+				Type:           fileCustomDir,
+				W:              x,
+				H:              y,
 			}
 
 			info, err = AddToMysql(svcCtx.DB, &uploadData)

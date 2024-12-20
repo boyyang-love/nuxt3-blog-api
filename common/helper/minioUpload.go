@@ -11,15 +11,26 @@ type MinioFileUploadParams struct {
 	Ctx         context.Context
 	MinioClient *minio.Client
 	Buf         *bytes.Buffer
+	OriBuf      *bytes.Buffer
 	Path        string
+	OriPath     string
 	Filename    string
 }
 
-func MinioFileUpload(params *MinioFileUploadParams) (url string, err error) {
+type MinioFileReturnPaths struct {
+	CloudPath    string
+	OriCloudPath string
+}
 
-	cloudPath := fmt.Sprintf("%s/%s", params.Path, params.Filename)
+func MinioFileUpload(params *MinioFileUploadParams) (urls *MinioFileReturnPaths, err error) {
+
+	fileName := fmt.Sprintf("%s.webp", FileNameWithoutExt(params.Filename))
+
+	cloudPath := fmt.Sprintf("%s/%s", params.Path, fileName)
+	cloudOriPath := fmt.Sprintf("%s/%s", params.OriPath, params.Filename)
 
 	reader := bytes.NewReader(params.Buf.Bytes())
+	oriReader := bytes.NewReader(params.OriBuf.Bytes())
 
 	_, err = params.MinioClient.PutObject(
 		params.Ctx,
@@ -30,9 +41,21 @@ func MinioFileUpload(params *MinioFileUploadParams) (url string, err error) {
 		minio.PutObjectOptions{},
 	)
 
+	_, err = params.MinioClient.PutObject(
+		params.Ctx,
+		"boyyang",
+		cloudOriPath,
+		oriReader,
+		oriReader.Size(),
+		minio.PutObjectOptions{},
+	)
+
 	if err == nil {
-		return cloudPath, nil
+		return &MinioFileReturnPaths{
+			CloudPath:    cloudPath,
+			OriCloudPath: cloudOriPath,
+		}, nil
 	} else {
-		return "", err
+		return nil, err
 	}
 }

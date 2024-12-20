@@ -41,7 +41,7 @@ func (l *FileListLogic) FileList(req *types.FileListReq) (resp *types.FileListRe
 		Model(&models.Upload{}).
 		Order("Updated desc").
 		Order("Created desc").
-		Select("id", "file_name", "file_path", "w", "h", "status").
+		Select("id", "file_name", "file_path", "origin_file_path", "w", "h", "status").
 		Where("user_id = ? and type = ?", userid, req.Type)
 
 	if req.Page == 0 || req.Limit == 0 {

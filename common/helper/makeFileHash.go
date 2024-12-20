@@ -40,3 +40,7 @@ func MakeImageFileHash(img image.Image, imgType string) (hash string, err error)
 
 	return fmt.Sprintf("%x", md5.Sum(h)), nil
 }
+
+func MakeImageFileHashByBytes(img []byte) (hash string) {
+	return fmt.Sprintf("%x", md5.Sum(img))
+}

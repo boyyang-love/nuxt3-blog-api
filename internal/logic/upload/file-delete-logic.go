@@ -26,7 +26,7 @@ func NewFileDeleteLogic(ctx context.Context, svcCtx *svc.ServiceContext) *FileDe
 }
 
 func (l *FileDeleteLogic) FileDelete(req *types.FileDeleteReq) (resp *types.FileDeleteRes, err error) {
-	if err = l.del(req.Id, req.FilePath); err != nil {
+	if err = l.del(req.Id, req.FilePath, req.OriginFilePath); err != nil {
 		return nil, errorx.NewDefaultError(err.Error())
 	}
 	return &types.FileDeleteRes{
@@ -37,18 +37,18 @@ func (l *FileDeleteLogic) FileDelete(req *types.FileDeleteReq) (resp *types.File
 	}, nil
 }
 
-func (l *FileDeleteLogic) del(id uint, path string) (err error) {
+func (l *FileDeleteLogic) del(id uint, path string, originPath string) (err error) {
 	var uploads []models.Upload
 	l.svcCtx.DB.
 		Model(&models.Upload{}).
 		Where("id != ? and file_path = ?", id, path).
 		Find(&uploads)
 
-	// 如何只有自己一个，则删除数据库记录
+	// 如果只有自己一个，则删除数据库记录
 	if len(uploads) == 0 {
 		if err = l.svcCtx.DB.
 			Transaction(func(tx *gorm.DB) error {
-				if err = l.delCloudDb(path); err != nil {
+				if err = l.delCloudDb(path, originPath); err != nil {
 					return err
 				}
 
@@ -90,14 +90,26 @@ func (l *FileDeleteLogic) delDb(id uint) error {
 }
 
 // 删除对象存储数据
-func (l *FileDeleteLogic) delCloudDb(path string) error {
-	if err := l.svcCtx.MinIoClient.RemoveObject(
+func (l *FileDeleteLogic) delCloudDb(path string, originPath string) error {
+	err := l.svcCtx.MinIoClient.RemoveObject(
 		l.ctx,
 		"boyyang",
 		path,
 		minio.RemoveObjectOptions{},
-	); err != nil {
+	)
+
+	if originPath != "" {
+		err = l.svcCtx.MinIoClient.RemoveObject(
+			l.ctx,
+			"boyyang",
+			originPath,
+			minio.RemoveObjectOptions{},
+		)
+	}
+
+	if err != nil {
 		return err
 	}
+
 	return nil
 }

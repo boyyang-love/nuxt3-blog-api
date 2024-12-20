@@ -13,14 +13,19 @@ import (
 )
 
 type CompressedImage struct {
-	Buf    *bytes.Buffer
-	Width  int
-	Height int
-	Hash   string
-	Size   int64
+	OriginBuf  *bytes.Buffer
+	Buf        *bytes.Buffer
+	Width      int
+	Height     int
+	Hash       string
+	OriginSize int64
+	Size       int64
+	OriginType string
+	Type       string
 }
 
 func ResizeImage(fileHeader *multipart.FileHeader) (compressionImage *CompressedImage, err error) {
+
 	imgFile, err := fileHeader.Open()
 	if err != nil {
 		return nil, err
@@ -33,21 +38,30 @@ func ResizeImage(fileHeader *multipart.FileHeader) (compressionImage *Compressed
 	if err != nil {
 		return nil, err
 	}
+
 	bounds := img.Bounds()
 	cimg := resize.Resize(uint(bounds.Dx()), uint(bounds.Dy()), img, resize.Lanczos3)
-	buffer := new(bytes.Buffer)
+
 	hash, err := MakeImageFileHash(cimg, imgType)
 	if err != nil {
 		return nil, err
 	}
 
+	buffer := new(bytes.Buffer)
+	originBuffer := new(bytes.Buffer)
 	switch imgType {
 	case "png":
 		if err = png.Encode(buffer, cimg); err != nil {
 			return nil, err
 		}
+		if err = png.Encode(originBuffer, img); err != nil {
+			return nil, err
+		}
 	case "jpeg", "jpg":
 		if err = jpeg.Encode(buffer, cimg, nil); err != nil {
+			return nil, err
+		}
+		if err = jpeg.Encode(originBuffer, img, nil); err != nil {
 			return nil, err
 		}
 	}
@@ -55,10 +69,12 @@ func ResizeImage(fileHeader *multipart.FileHeader) (compressionImage *Compressed
 	reader := bytes.NewReader(buffer.Bytes())
 
 	return &CompressedImage{
-		Hash:   hash,
-		Buf:    buffer,
-		Width:  bounds.Dx(),
-		Height: bounds.Dy(),
-		Size:   int64(reader.Size()),
+		Hash:      hash,
+		OriginBuf: originBuffer,
+		Buf:       buffer,
+		Width:     bounds.Dx(),
+		Height:    bounds.Dy(),
+		Size:      reader.Size(),
+		Type:      imgType,
 	}, nil
 }
