@@ -2,17 +2,14 @@ package helper
 
 import (
 	"bytes"
-	"github.com/chai2010/webp"
+	"github.com/nickalie/go-webpbin"
 	"image"
-	_ "image/gif"
 	"image/jpeg"
-	_ "image/jpeg"
 	"image/png"
-	_ "image/png"
 	"mime/multipart"
 )
 
-func ImageToWebp(fileHeader *multipart.FileHeader, quality float32) (compressedImage *CompressedImage, err error) {
+func Image2Webp(fileHeader *multipart.FileHeader, quality uint) (compressedImage *CompressedImage, err error) {
 
 	imageFile, err := fileHeader.Open()
 	if err != nil {
@@ -28,6 +25,7 @@ func ImageToWebp(fileHeader *multipart.FileHeader, quality float32) (compressedI
 	}
 
 	originBuffer := new(bytes.Buffer)
+
 	switch imgType {
 	case "png":
 		if err = png.Encode(originBuffer, img); err != nil {
@@ -37,31 +35,31 @@ func ImageToWebp(fileHeader *multipart.FileHeader, quality float32) (compressedI
 		if err = jpeg.Encode(originBuffer, img, nil); err != nil {
 			return nil, err
 		}
-	case "webp":
-		if err = webp.Encode(originBuffer, img, nil); err != nil {
-			return nil, err
-		}
 	}
 
-	imgByte, err := webp.EncodeRGBA(img, quality)
-	if err != nil {
+	buf := new(bytes.Buffer)
+
+	if err = webpbin.NewCWebP().
+		Quality(quality).
+		InputImage(img).
+		Output(buf).
+		Run(); err != nil {
 		return nil, err
 	}
 
-	hash := MakeImageFileHashByBytes(imgByte)
-
-	reader := bytes.NewReader(imgByte)
-	oriReader := bytes.NewReader(originBuffer.Bytes())
+	originReader := bytes.NewReader(originBuffer.Bytes())
+	reader := bytes.NewReader(buf.Bytes())
 
 	return &CompressedImage{
+		Hash:       MakeImageFileHashByBytes(originBuffer.Bytes()),
 		OriginBuf:  originBuffer,
-		Buf:        bytes.NewBuffer(imgByte),
+		Buf:        buf,
 		Width:      img.Bounds().Dx(),
 		Height:     img.Bounds().Dy(),
+		OriginSize: originReader.Size(),
 		Size:       reader.Size(),
-		OriginSize: oriReader.Size(),
-		Hash:       hash,
 		OriginType: imgType,
 		Type:       ".webp",
 	}, nil
+
 }

@@ -24,7 +24,7 @@ type MinioFileReturnPaths struct {
 
 func MinioFileUpload(params *MinioFileUploadParams) (urls *MinioFileReturnPaths, err error) {
 
-	fileName := fmt.Sprintf("%s.webp", FileNameWithoutExt(params.Filename))
+	fileName := fmt.Sprintf("%s.webp", FileNameNoExt(params.Filename))
 
 	cloudPath := fmt.Sprintf("%s/%s", params.Path, fileName)
 	cloudOriPath := fmt.Sprintf("%s/%s", params.OriPath, params.Filename)

@@ -5,6 +5,6 @@ import (
 	"strings"
 )
 
-func FileNameWithoutExt(fileName string) string {
+func FileNameNoExt(fileName string) string {
 	return strings.TrimSuffix(path.Base(fileName), path.Ext(fileName))
 }

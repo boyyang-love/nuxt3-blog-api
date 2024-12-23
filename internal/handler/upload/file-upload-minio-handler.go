@@ -15,17 +15,10 @@ import (
 func FileUploadMinioHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		var req types.FileUploadReq
-		_, fileHeader, err := r.FormFile("file")
+		file, fileHeader, err := r.FormFile("file")
 		if err != nil {
 			httpx.ErrorCtx(r.Context(), w, err)
 		}
-
-		compressedImage, err := helper.ImageToWebp(fileHeader, 50)
-		if err != nil {
-			httpx.ErrorCtx(r.Context(), w, err)
-		}
-
-		x, y, fileHash, fileSize, imgType := compressedImage.Width, compressedImage.Height, compressedImage.Hash, compressedImage.Size, compressedImage.Type
 
 		// 用户上传名称 以及路径（blog,image）
 		fileCustomName := r.PostFormValue("file_name")
@@ -38,8 +31,20 @@ func FileUploadMinioHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 			return
 		}
 
+		fileHash, err := helper.MakeFileHash(file, fileHeader)
+		if err != nil {
+			httpx.ErrorCtx(r.Context(), w, err)
+			return
+		}
+
 		info, err := IsExists(svcCtx.DB, fileHash, userid, fileCustomDir)
 		if err != nil {
+			compressedImage, err := helper.Image2Webp(fileHeader, 80)
+			if err != nil {
+				httpx.ErrorCtx(r.Context(), w, err)
+			}
+
+			x, y, fileSize, imgType := compressedImage.Width, compressedImage.Height, compressedImage.Size, compressedImage.Type
 			fileCloudPaths, err := helper.MinioFileUpload(
 				&helper.MinioFileUploadParams{
 					Ctx:         r.Context(),
@@ -59,7 +64,7 @@ func FileUploadMinioHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 			//插入数据库
 			uploadData := models.Upload{
 				Hash:           fileHash,
-				FileName:       helper.FileNameWithoutExt(fileCustomName),
+				FileName:       helper.FileNameNoExt(fileCustomName),
 				FileSize:       fileSize,
 				OriginFileSize: compressedImage.OriginSize,
 				FileType:       imgType,
