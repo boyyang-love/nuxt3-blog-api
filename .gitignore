@@ -13,3 +13,5 @@ logs
 main
 .bin
 
+etc/blog-backend.yaml
+

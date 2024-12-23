@@ -16,9 +16,9 @@ MySQLConf:
   Collation: utf8mb4_unicode_ci
   Timeout: 10s
 CloudBase:
-  ClientUrl: https://7072-prod-2g5hif5wbec83baa-1301921121.cos.ap-shanghai.myqcloud.com
-  ClientSecretId: AKIDHZq39Aa1NcjnmeO1b8cbXPDwcGpEg6Sh
-  ClientSecretKey: RqAP1dDlDYo299mj3GJJCxaBhCiO3iKv
+  ClientUrl: ''
+  ClientSecretId: ''
+  ClientSecretKey: ''
 MinioClient:
   Endpoint: 47.109.86.251:9000
   AccessKey: nORa7vVFmamIow77uug4
