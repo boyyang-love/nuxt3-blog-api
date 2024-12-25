@@ -28,9 +28,10 @@ func main() {
 		rest.WithCustomCors(
 			nil,
 			notAllowedFn,
-			"https://www.boyyang.cn",
-			"http://www.boyyang.cn",
-			"http://localhost:3000",
+			[]string{
+				"https://www.boyyang.cn",
+				"http://localhost:3000",
+			}...,
 		),
 	)
 	defer server.Stop()
