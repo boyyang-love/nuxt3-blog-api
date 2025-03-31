@@ -24,8 +24,3 @@ MinioClient:
   AccessKey: nORa7vVFmamIow77uug4
   SecretKey: LZRLI5glyKZaoJsUQH87E74PxJENTazFSAIOuiCI
   Secure: true
-# QQ登录
-QqLoginConf:
-  AppId: "102737337"
-  AppKey: MfkaGivwiFXaQ24v
-  RedirectURI: https://www.boyyang.cn/QQLoginBack
