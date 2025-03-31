@@ -16,7 +16,7 @@ func Minio(endpoint string, accessKey string, secretAccessKey string, secure boo
 		endpoint,
 		&minio.Options{
 			Creds:  credentials.NewStaticV4(accessKey, secretAccessKey, ""),
-			Secure: false,
+			Secure: secure,
 		},
 	)
 

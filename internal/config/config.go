@@ -30,10 +30,18 @@ type MinioClient struct {
 	SecretKey string
 	Secure    bool
 }
+
+type QqLoginConf struct {
+	AppId       string
+	AppKey      string
+	RedirectURI string
+}
+
 type Config struct {
 	rest.RestConf
 	MySQLConf   MySQLConf
 	Auth        Auth
 	CloudBase   CloudBase
 	MinioClient MinioClient
+	QqLoginConf QqLoginConf
 }

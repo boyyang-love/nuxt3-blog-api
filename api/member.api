@@ -44,6 +44,35 @@ type (
 	}
 )
 
+type (
+	SignInByQqReq {
+		Code string `form:"code"`
+	}
+	SignInByQqRes {
+		Base
+		Data SignInByQqResData `json:"data"`
+	}
+	SignInByQqResData {
+		Token string `json:"token"`
+		UserInfo SignInByQqUserInfo `json:"user_info"`
+	}
+	SignInByQqUserInfo {
+		Id       uint   `json:"id"`
+		Uid      string `json:"uid"`
+		Username string `json:"username"`
+		Cover    string `json:"cover"`
+		Avatar   string `json:"avatar"`
+		Account  string `json:"account"`
+		Motto    string `json:"motto"`
+		Address  string `json:"address"`
+		Tel      string `json:"tel"`
+		Email    string `json:"email"`
+		QQ       string `json:"qq"`
+		Wechat   string `json:"wechat"`
+		GitHub   string `json:"git_hub"`
+	}
+)
+
 @server (
 	group: member
 )
@@ -53,5 +82,8 @@ service blog_backend {
 
 	@handler SignUp // 注册
 	post /user/signup (SignUpReq) returns (SignUpRes)
+
+	@handler SignInByQq
+	get /signin/qq (SignInByQqReq) returns (SignInByQqRes)
 }
 

@@ -548,6 +548,36 @@ type SearchResDataInfo struct {
 	Cover   string `json:"cover"`
 }
 
+type SignInByQqReq struct {
+	Code string `form:"code"`
+}
+
+type SignInByQqRes struct {
+	Base
+	Data SignInByQqResData `json:"data"`
+}
+
+type SignInByQqResData struct {
+	Token    string             `json:"token"`
+	UserInfo SignInByQqUserInfo `json:"user_info"`
+}
+
+type SignInByQqUserInfo struct {
+	Id       uint   `json:"id"`
+	Uid      string `json:"uid"`
+	Username string `json:"username"`
+	Cover    string `json:"cover"`
+	Avatar   string `json:"avatar"`
+	Account  string `json:"account"`
+	Motto    string `json:"motto"`
+	Address  string `json:"address"`
+	Tel      string `json:"tel"`
+	Email    string `json:"email"`
+	QQ       string `json:"qq"`
+	Wechat   string `json:"wechat"`
+	GitHub   string `json:"git_hub"`
+}
+
 type SignInReq struct {
 	Username string `json:"username"`
 	Password string `json:"password"`

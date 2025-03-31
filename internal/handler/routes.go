@@ -165,6 +165,11 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 	server.AddRoutes(
 		[]rest.Route{
 			{
+				Method:  http.MethodGet,
+				Path:    "/signin/qq",
+				Handler: member.SignInByQqHandler(serverCtx),
+			},
+			{
 				Method:  http.MethodPost,
 				Path:    "/user/signin",
 				Handler: member.SignInHandler(serverCtx),

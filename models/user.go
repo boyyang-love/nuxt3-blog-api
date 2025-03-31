@@ -11,6 +11,7 @@ type User struct {
 	// 字段
 	Username string `json:"username" form:"username"`
 	Account  string `json:"account" form:"account"`
+	OpenId   string `json:"open_id" form:"open_id"`
 	Password string `json:"password" form:"password"`
 	Motto    string `json:"motto" form:"motto" gorm:"default:第一行没有你，第二行没有你，第三行没有也罢！-胡歌"`
 	Address  string `json:"address" form:"address"`

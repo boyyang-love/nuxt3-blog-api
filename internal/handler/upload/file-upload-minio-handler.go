@@ -51,6 +51,7 @@ func FileUploadMinioHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 					MinioClient: svcCtx.MinIoClient,
 					Buf:         compressedImage.Buf,
 					OriBuf:      compressedImage.OriginBuf,
+					FileHash:    compressedImage.Hash,
 					Filename:    fileHeader.Filename,
 					Path:        fmt.Sprintf("BOYYANG/%d/%s/%s", userid, fileCustomDir, "compressed"),
 					OriPath:     fmt.Sprintf("BOYYANG/%d/%s/%s", userid, fileCustomDir, "origin"),
