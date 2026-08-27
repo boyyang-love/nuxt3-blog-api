@@ -1,9 +1,10 @@
 package models
 
 import (
+	"strings"
+
 	uuid "github.com/satori/go.uuid"
 	"gorm.io/gorm"
-	"strings"
 )
 
 type Article struct {
@@ -12,7 +13,7 @@ type Article struct {
 	Title        string `json:"title" form:"title"`
 	Des          string `json:"des" form:"des"`
 	Cover        string `json:"cover" form:"cover"`
-	Content      string `json:"content" form:"content" gorm:"size:15000"`
+	Content      string `json:"content" form:"content" gorm:"type:text"`
 	UserId       uint   `json:"user_id" form:"user_id"`
 	Star         int    `json:"star" form:"star"`
 	Keywords     string `json:"keywords" form:"keywords"`

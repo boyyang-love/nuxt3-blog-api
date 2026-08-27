@@ -13,6 +13,7 @@ type Links struct {
 	WebsiteIcon string `json:"website_icon"`
 	WebsiteDesc string `json:"website_desc"`
 	Email       string `json:"email"`
+	UserUid     string `json:"user_uid"` // 申请者用户UID
 	Status      int    `json:"status" gorm:"type:enum('1','2','3','4');default:1"` // 1 审核中 2 审核通过 3 审核失败 4 失联
 }
 

@@ -8,8 +8,9 @@ import (
 	"blog_backend/models"
 	"encoding/json"
 	"fmt"
-	"github.com/zeromicro/go-zero/rest/httpx"
 	"net/http"
+
+	"github.com/zeromicro/go-zero/rest/httpx"
 )
 
 func FileUploadMinioHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
@@ -39,7 +40,7 @@ func FileUploadMinioHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 
 		info, err := IsExists(svcCtx.DB, fileHash, userid, fileCustomDir)
 		if err != nil {
-			compressedImage, err := helper.Image2Webp(fileHeader, 80)
+			compressedImage, err := helper.Image2Webp(fileHeader, 1)
 			if err != nil {
 				httpx.ErrorCtx(r.Context(), w, err)
 			}

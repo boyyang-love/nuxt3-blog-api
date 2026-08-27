@@ -245,6 +245,7 @@ func (l *SignInByQqLogic) InfoAndToken(openId string) (info *models.User, token 
 	token, err = helper.NewToken(
 		&helper.JwtStruct{
 			Id:               user.Id,
+			Uid:              user.Uid,
 			Username:         user.Username,
 			Role:             user.Role,
 			RegisteredClaims: jwt.RegisteredClaims{},

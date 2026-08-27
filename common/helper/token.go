@@ -7,6 +7,7 @@ import (
 
 type JwtStruct struct {
 	Id       uint
+	Uid      string
 	Username string
 	Role     string
 	jwt.RegisteredClaims
@@ -16,6 +17,7 @@ func NewToken(g *JwtStruct, secretKey string, expire int64) (string, error) {
 	claims := jwt.NewWithClaims(jwt.SigningMethodHS256,
 		JwtStruct{
 			Id:       g.Id,
+			Uid:      g.Uid,
 			Username: g.Username,
 			Role:     g.Role,
 			RegisteredClaims: jwt.RegisteredClaims{

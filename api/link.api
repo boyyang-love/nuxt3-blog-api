@@ -8,8 +8,6 @@ type (
 		WebsiteUrl  string `json:"website_url"`
 		WebsiteIcon string `json:"website_icon"`
 		WebsiteDesc string `json:"website_desc"`
-		Email       string `json:"email"`
-		Code        string `json:"code"`
 	}
 	LinkCreateRes {
 		Base
@@ -64,11 +62,17 @@ type (
 	group: link
 )
 service blog_backend {
-	@handler CreateLink
-	post /link/create (LinkCreateReq) returns (LinkCreateRes)
-
 	@handler ListLink
 	get /link/list (LinkListReq) returns (LinkListRes)
+}
+
+@server (
+	group: link
+	jwt: Auth
+)
+service blog_backend {
+	@handler CreateLink
+	post /link/create (LinkCreateReq) returns (LinkCreateRes)
 
 	@handler UpdateLink
 	post /link/update (LinkUpdateReq) returns (LinkUpdateRes)
@@ -79,4 +83,3 @@ service blog_backend {
 	@handler DeleteLink
 	post /link/delete (LinkDeleteReq) returns (LinkDeleteRes)
 }
-

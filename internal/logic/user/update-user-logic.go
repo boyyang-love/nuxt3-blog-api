@@ -32,17 +32,19 @@ func (l *UpdateUserLogic) UpdateUser(req *types.UpdateUserReq) (resp *types.Upda
 		return nil, err
 	}
 
-	var user []models.User
-	l.svcCtx.DB.
-		Model(&models.User{}).
-		Select("username", "id").
-		Where("username = ? and id != ?", req.Username, userid).
-		Find(&user)
+	if req.Username != "" {
+		var user []models.User
+		l.svcCtx.DB.
+			Model(&models.User{}).
+			Select("username", "id").
+			Where("username = ? and id != ?", req.Username, userid).
+			Find(&user)
 
-	if len(user) != 0 {
-		return nil, errorx.NewDefaultError("用户名已存在")
+		if len(user) != 0 {
+			return nil, errorx.NewDefaultError("用户名已存在")
+		}
 	}
-
+	
 	if err = l.svcCtx.DB.
 		Model(&models.User{}).
 		Where("id = ?", userid).
